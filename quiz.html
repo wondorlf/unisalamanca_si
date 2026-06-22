@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz - Sistemas de Información</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#1f2937;color:#e2e8f0;display:flex;flex-direction:column;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#1e3a8a,#2563eb);padding:12px 20px;display:flex;align-items:center;gap:10px;border-bottom:3px solid #3b82f6;flex-shrink:0}
+.hdr .ic{width:40px;height:40px;background:#3b82f6;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:1em}
+.hdr .tx{color:#fff;font-size:1.2em;font-weight:900}.hdr .tx span{color:#bfdbfe}
+.main{flex:1;padding:30px 20px;max-width:850px;margin:0 auto;width:100%}
+h1{font-size:2.5em;font-weight:900;text-align:center;margin-bottom:28px;color:#f1f5f9}
+h1 span{color:#60a5fa}
+.qb{background:rgba(30,41,59,0.8);border:2px solid #374151;border-radius:16px;padding:30px;margin-bottom:20px;transition:all 0.3s}
+.qb:hover{border-color:#3b82f6;box-shadow:0 4px 15px rgba(59,130,246,0.1)}
+.qb p{font-weight:800;margin-bottom:16px;font-size:1.1em;color:#f1f5f9}
+.qo{display:block;background:rgba(30,41,59,0.8);border:2px solid #374151;border-radius:12px;padding:14px 20px;margin-bottom:10px;cursor:pointer;transition:all 0.3s;font-weight:600;color:#e2e8f0;font-size:1.05em}
+.qo:hover{border-color:#3b82f6;color:#e2e8f0;background:rgba(59,130,246,0.1);transform:translateX(4px)}
+.qo.ok{background:rgba(34,197,94,0.15);border-color:#22c55e;color:#4ade80;pointer-events:none}
+.qo.no{background:rgba(239,68,68,0.15);border-color:#ef4444;color:#f87171;pointer-events:none}
+.qo.lock{pointer-events:none}
+.fb{display:none;margin-top:12px;padding:12px 16px;border-radius:10px;font-weight:700;font-size:1em}
+.fb.show{display:block}
+.fb.ok{background:rgba(34,197,94,0.15);color:#4ade80;border:1.5px solid #22c55e}
+.fb.no{background:rgba(239,68,68,0.15);color:#f87171;border:1.5px solid #ef4444}
+.score{text-align:center;margin:24px 0;padding:24px;background:rgba(30,41,59,0.8);border:2px solid #374151;border-radius:16px;display:none}
+.score.show{display:block}
+.score .num{font-size:3.5em;font-weight:900;color:#60a5fa}
+.score p{color:#e2e8f0;font-weight:600;font-size:1.1em}
+.nav{background:#1e293b;padding:14px 20px;display:flex;align-items:center;justify-content:center;gap:16px;border-top:2px solid #1e3a8a;flex-shrink:0}
+.nav button{border:none;padding:12px 24px;border-radius:10px;cursor:pointer;font-weight:700;font-size:1em;transition:all 0.3s}
+.nav button:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.nb{background:#2563eb;color:#fff}.nb:hover{background:#1d4ed8}
+.nm{background:#374151;color:#e2e8f0;border:1px solid #4b5563}.nm:hover{background:#2563eb;color:#fff;border-color:#2563eb}
+.ft{background:#1e3a8a;padding:10px 20px;text-align:center;border-top:2px solid #3b82f6;flex-shrink:0}
+.ft p{color:#bfdbfe;font-size:0.95em;font-weight:600}.ft strong{color:#fff}
+@media(max-width:768px){.hdr{flex-direction:column;gap:8px;text-align:center}h1{font-size:2em}.qb{padding:24px}.qo{padding:12px 16px;font-size:1em}.nav{flex-wrap:wrap;gap:10px}.nav button{padding:10px 18px;font-size:0.9em}.ft p{font-size:0.85em}}
+@media(max-width:480px){h1{font-size:1.6em}.qb p{font-size:1em}.qo{font-size:0.95em}.score .num{font-size:2.5em}}
+</style>
+</head>
+<body>
+<header class="hdr"><div class="ic">US</div><div class="tx">Uni<span>Salamanca</span></div></header>
+<main class="main">
+<h1><span>🧠</span> Evaluación</h1>
+
+<div class="qb" id="q1">
+<p>1. ¿Cuál es la diferencia entre análisis y diseño de sistemas?</p>
+<div class="qo" onclick="check('q1',this,false)">A) Análisis es programar, diseño es documentar</div>
+<div class="qo" onclick="check('q1',this,true)">B) Análisis es QUÉ hacer, diseño es CÓMO hacerlo</div>
+<div class="qo" onclick="check('q1',this,false)">C) No hay diferencia significativa</div>
+<div class="qo" onclick="check('q1',this,false)">D) Análisis es posterior al diseño</div>
+<div class="fb" id="fb1"></div>
+</div>
+
+<div class="qb" id="q2">
+<p>2. ¿Qué componente transforma datos en información significativa?</p>
+<div class="qo" onclick="check('q2',this,false)">A) Hardware</div>
+<div class="qo" onclick="check('q2',this,false)">B) Red</div>
+<div class="qo" onclick="check('q2',this,true)">C) Procesamiento</div>
+<div class="qo" onclick="check('q2',this,false)">D) Almacenamiento</div>
+<div class="fb" id="fb2"></div>
+</div>
+
+<div class="qb" id="q3">
+<p>3. ¿Qué tipo de SI se utiliza en la base de la pirámide para transacciones diarias?</p>
+<div class="qo" onclick="check('q3',this,false)">A) EIS</div>
+<div class="qo" onclick="check('q3',this,false)">B) DSS</div>
+<div class="qo" onclick="check('q3',this,false)">C) MIS</div>
+<div class="qo" onclick="check('q3',this,true)">D) TPS</div>
+<div class="fb" id="fb3"></div>
+</div>
+
+<div class="qb" id="q4">
+<p>4. ¿Cuáles son las 6 características de la información de calidad?</p>
+<div class="qo" onclick="check('q4',this,false)">A) Rápida, barata, fácil, bonita, corta, simple</div>
+<div class="qo" onclick="check('q4',this,true)">B) Oportunidad, precisión, relevancia, comprensibilidad, completitud, accesibilidad</div>
+<div class="qo" onclick="check('q4',this,false)">C) Velocidad, costo, diseño, tamaño, peso, forma</div>
+<div class="fb" id="fb4"></div>
+</div>
+
+<div class="qb" id="q5">
+<p>5. ¿Qué significan las siglas ERP?</p>
+<div class="qo" onclick="check('q5',this,false)">A) Electronic Resource Processing</div>
+<div class="qo" onclick="check('q5',this,true)">B) Enterprise Resource Planning</div>
+<div class="qo" onclick="check('q5',this,false)">C) Essential Real-time Protocol</div>
+<div class="fb" id="fb5"></div>
+</div>
+
+<div class="qb" id="q6">
+<p>6. ¿Cuál es el primer paso del ciclo de vida de un SI?</p>
+<div class="qo" onclick="check('q6',this,false)">A) Codificación</div>
+<div class="qo" onclick="check('q6',this,false)">B) Diseño</div>
+<div class="qo" onclick="check('q6',this,true)">C) Conocer la organización</div>
+<div class="qo" onclick="check('q6',this,false)">D) Implementación</div>
+<div class="fb" id="fb6"></div>
+</div>
+
+<div class="qb" id="q7">
+<p>7. ¿Qué es un Sistema Experto (SE)?</p>
+<div class="qo" onclick="check('q7',this,false)">A) Un sistema que solo expertos pueden usar</div>
+<div class="qo" onclick="check('q7',this,true)">B) Un sistema que emula el comportamiento de un experto humano con IA</div>
+<div class="qo" onclick="check('q7',this,false)">C) Un sistema de seguridad empresarial</div>
+<div class="fb" id="fb7"></div>
+</div>
+
+<div class="qb" id="q8">
+<p>8. ¿Qué tipo de información es un reporte mensual de ventas?</p>
+<div class="qo" onclick="check('q8',this,false)">A) Tiempo real</div>
+<div class="qo" onclick="check('q8',this,true)">B) Periódica</div>
+<div class="qo" onclick="check('q8',this,false)">C) Bajo demanda</div>
+<div class="fb" id="fb8"></div>
+</div>
+
+<div class="qb" id="q9">
+<p>9. ¿Qué es la homeostasis en un sistema?</p>
+<div class="qo" onclick="check('q9',this,false)">A) Capacidad de crecer</div>
+<div class="qo" onclick="check('q9',this,true)">B) Capacidad de autorregulación</div>
+<div class="qo" onclick="check('q9',this,false)">C) Tendencia al desorden</div>
+<div class="fb" id="fb9"></div>
+</div>
+
+<div class="qb" id="q10">
+<p>10. ¿Qué level de la pirámide toma decisiones estratégicas a largo plazo?</p>
+<div class="qo" onclick="check('q10',this,false)">A) TPS</div>
+<div class="qo" onclick="check('q10',this,false)">B) OAS</div>
+<div class="qo" onclick="check('q10',this,true)">C) EIS</div>
+<div class="qo" onclick="check('q10',this,false)">D) MIS</div>
+<div class="fb" id="fb10"></div>
+</div>
+
+<div class="score" id="scoreBox">
+<div class="num" id="scoreNum">0/10</div>
+<p>¡Completaste el quiz!</p>
+<button class="nb" onclick="location.reload()" style="margin-top:12px">🔄 Intentar de nuevo</button>
+</div>
+
+</main>
+<nav class="nav">
+<button class="nm" onclick="location.href='index.html'">← Menú</button>
+<button class="nm" onclick="location.href='presentacion.html'">📊 Presentación</button>
+<button class="nm" onclick="location.href='game.html'">🎮 Juego</button>
+</nav>
+<footer class="ft"><p><strong>Grupo 4:</strong> Jeimy Calderón, Jorge Montiel, Kevin Morales, Raúl Lozano</p></footer>
+
+<script>
+let answered=0,correct=0;
+function check(qid,el,ok){
+const qb=document.getElementById(qid);
+if(qb.dataset.done)return;
+qb.dataset.done='1';
+answered++;
+qb.querySelectorAll('.qo').forEach(o=>o.classList.add('lock'));
+el.classList.add(ok?'ok':'no');
+if(!ok){qb.querySelectorAll('.qo').forEach(o=>{if(o!==el&&o.getAttribute('onclick')&&o.getAttribute('onclick').includes('true'))o.classList.add('ok')})}
+const fb=document.getElementById('fb'+qid.replace('q',''));
+fb.classList.add('show',ok?'ok':'no');
+fb.textContent=ok?'✅ ¡Correcto!':'❌ Incorrecto.';
+if(ok)correct++;
+if(answered===10){
+const s=document.getElementById('scoreBox');s.classList.add('show');
+document.getElementById('scoreNum').textContent=correct+'/10';
+document.getElementById('scoreNum').style.color=correct>=7?'#16a34a':correct>=5?'#ea580c':'#dc2626'}
+}
+</script>
+</body>
+</html>

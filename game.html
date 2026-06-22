@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juego del Laberinto</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#111827;display:flex;flex-direction:column;height:100vh;overflow:hidden;color:#e2e8f0}
+.header{background:linear-gradient(135deg,#1e3a8a,#2563eb);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #3b82f6;flex-shrink:0}
+.header .logo{display:flex;align-items:center;gap:10px}
+.header .icon{width:36px;height:36px;background:#3b82f6;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:0.95em}
+.header .text{color:#fff;font-size:1.1em;font-weight:900}.header .text span{color:#bfdbfe}
+.hud{background:#1e293b;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #1e3a8a;flex-shrink:0;flex-wrap:wrap;gap:8px}
+.hud-left,.hud-right{display:flex;align-items:center;gap:16px}
+.back{background:#2563eb;color:#fff;border:none;padding:10px 20px;border-radius:10px;cursor:pointer;font-weight:700;font-size:1em;transition:all 0.3s}
+.back:hover{background:#1d4ed8;transform:translateY(-1px)}
+.stat{font-weight:700;color:#e2e8f0;font-size:1em;display:flex;align-items:center;gap:5px}.stat span{color:#3b82f6;font-weight:900;font-size:1.1em}
+.hint{color:#94a3b8;font-size:0.9em}
+.canvas-wrap{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;background:#111827}
+canvas{display:block}
+.minimap{position:absolute;bottom:8px;right:8px;width:120px;height:120px;background:rgba(15,23,42,0.9);border:2px solid #334155;border-radius:8px;overflow:hidden}
+.bar{background:#1e293b;padding:8px 16px;border-top:2px solid #1e3a8a;display:flex;gap:5px;flex-wrap:wrap;justify-content:center;flex-shrink:0;min-height:36px}
+.chip{padding:3px 8px;border-radius:12px;font-size:0.68em;font-weight:700;opacity:0.25;border:1.5px solid;transition:all 0.4s}
+.chip.on{opacity:1;transform:scale(1.05)}.chip.c1{background:rgba(59,130,246,0.2);color:#60a5fa;border-color:#3b82f6}.chip.c2{background:rgba(168,85,247,0.2);color:#c084fc;border-color:#a855f7}.chip.c3{background:rgba(20,184,166,0.2);color:#2dd4bf;border-color:#14b8a6}
+.popup{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);justify-content:center;align-items:center;z-index:999}
+.popup.show{display:flex}
+.popup-box{background:#1e293b;border:3px solid;border-radius:20px;padding:36px;max-width:500px;width:92%;text-align:center;animation:pop 0.3s ease}
+@keyframes pop{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+.popup-box .em{font-size:3em;display:block;margin-bottom:10px}
+.popup-box .mod{font-size:0.8em;text-transform:uppercase;letter-spacing:2px;font-weight:800;margin-bottom:8px}
+.popup-box h3{font-size:1.5em;color:#f1f5f9;margin-bottom:12px}
+.popup-box p{color:#e2e8f0;line-height:1.7;font-size:1em}
+.popup-box button{margin-top:18px;padding:12px 28px;border:none;border-radius:10px;background:#2563eb;color:#fff;font-weight:800;font-size:1em;cursor:pointer;transition:all 0.3s}
+.popup-box button:hover{transform:translateY(-2px);filter:brightness(1.2)}
+.qopts{display:flex;flex-direction:column;gap:10px;margin-top:16px;text-align:left}
+.qopt{background:#334155;border:2px solid #475569;border-radius:10px;padding:12px 18px;cursor:pointer;transition:all 0.3s;color:#cbd5e1;font-weight:600;font-size:1em}
+.qopt:hover{border-color:#3b82f6;color:#fff;background:rgba(59,130,246,0.15)}
+.qopt.ok{background:rgba(34,197,94,0.2);border-color:#22c55e;color:#4ade80;pointer-events:none}
+.qopt.no{background:rgba(239,68,68,0.2);border-color:#ef4444;color:#f87171;pointer-events:none}
+.footer{background:#1e3a8a;padding:10px 20px;text-align:center;border-top:2px solid #3b82f6;flex-shrink:0}
+.footer p{color:#bfdbfe;font-size:0.9em;font-weight:600}.footer strong{color:#fff}
+@media(max-width:768px){.header{flex-direction:column;gap:6px;text-align:center}.hud{flex-direction:column;text-align:center}.hint{display:none}.bar{font-size:0.7em}.footer p{font-size:0.8em}}
+</style>
+</head>
+<body>
+<header class="header"><div class="logo"><div class="icon">US</div><div class="text">Uni<span>Salamanca</span></div></div></header>
+<div class="hud">
+<div class="hud-left">
+<button class="back" onclick="location.href='index.html'">← Menú</button>
+<div class="stat">💎 <span id="hC">0</span>/15</div>
+<div class="stat">⭐ <span id="hS">0</span> pts</div>
+<div class="stat red">❤️ <span id="hL">3</span></div>
+<div class="stat green">🏆 Nivel <span id="hN">1</span></div>
+</div>
+<div class="hint">WASD/Flechas | ⚡ Trampas = Preguntas | 👾 Enemigos | 🔑 Llaves</div>
+</div>
+<div class="canvas-wrap"><canvas id="gc"></canvas><div class="minimap"><canvas id="mc" width="120" height="120"></canvas></div></div>
+<div class="bar" id="bar"></div>
+
+<div class="popup" id="pop"><div class="popup-box" id="popBox">
+<span class="em" id="pEm"></span><div class="mod" id="pMod"></div><h3 id="pTi"></h3><p id="pDe"></p>
+<div class="qopts" id="pQs"></div>
+<button id="pBt" onclick="closePop()">Continuar →</button>
+</div></div>
+
+<footer class="footer"><p><strong>Grupo 4:</strong> Jeimy Calderón, Jorge Montiel, Kevin Morales, Raúl Lozano</p></footer>
+
+<script>
+const CELL=40,COLS=25,ROWS=17;
+const W=1,F=0,C=2,E=3,P=4,T=5,K=6,D=7,M=8;
+
+const QUESTIONS=[
+{q:'¿Qué es un sistema?',a:['Conjunto de elementos interrelacionados','Un solo programa de computadora','Un edificio de oficinas','Una hoja de cálculo'],ok:0},
+{q:'¿Análisis = QUÉ o CÓMO?',a:['CÓMO','QUÉ','DOÓNDE','CUÁNDO'],ok:1},
+{q:'¿Qué transforma datos en información?',a:['Hardware','Procesamiento','Red','Impresora'],ok:1},
+{q:'¿Tipo de SI para transacciones diarias?',a:['EIS','DSS','TPS','ERP'],ok:2},
+{q:'¿Qué es la homeostasis?',a:['Crecimiento','Autorregulación','Destrucción','Velocidad'],ok:1},
+{q:'¿Significado de ERP?',a:['Electronic Processing','Enterprise Resource Planning','Easy Running Program','Extra Rapid Process'],ok:1},
+{q:'¿Qué mide la teoría de Shannon?',a:['Velocidad','Reducción de incertidumbre','Peso','Color'],ok:1},
+{q:'¿Qué es un Sistema Experto?',a:['Para expertos','Emula experto con IA','Un virus','Un juego'],ok:1},
+{q:'¿Primera fase del ciclo de vida?',a:['Codificación','Diseño','Conocer la organización','Implementación'],ok:2},
+{q:'¿Qué es la entropía?',a:['Crecimiento','Orden perfecto','Tendencia al desorden','Velocidad máxima'],ok:2},
+{q:'¿Qué tipo de SI usa el CEO?',a:['TPS','MIS','DSS','EIS'],ok:3},
+{q:'¿Relevancia significa que la info es...?',a:['Bonita','Pertinente al propósito','Rápida','Cara'],ok:1},
+{q:'¿Qué es un SIG?',a:['Sistema Informático General','Sistema de Información Geográfica','Software Inteligente Gratuito','Servicio de Internet Global'],ok:1},
+{q:'¿Salida de un sistema = ?',a:['Entrada','Proceso','Resultado','Dato'],ok:2},
+{q:'¿Qué es un TPS?',a:['Técnico Programador Senior','Transaction Processing System','Tiempo Para Salir','Todo Puede Salir'],ok:1},
+];
+
+const CONCEPTS=[
+{em:'⚙️',mod:'SISTEMAS',ti:'Concepto de Sistema',de:'Conjunto de elementos interrelacionados para lograr un objetivo.',co:'#3b82f6'},
+{em:'🔍',mod:'SISTEMAS',ti:'Análisis',de:'Identificar QUÉ debe hacer el sistema.',co:'#3b82f6'},
+{em:'✏️',mod:'SISTEMAS',ti:'Diseño',de:'Especificar CÓMO hará el sistema lo que se necesita.',co:'#3b82f6'},
+{em:'👥',mod:'SISTEMAS',ti:'Usuarios',de:'Finales, gerenciales, técnicos y stakeholders.',co:'#3b82f6'},
+{em:'🧩',mod:'SISTEMAS',ti:'Elementos',de:'Entradas → Proceso → Salidas + Retroalimentación.',co:'#3b82f6'},
+{em:'🔧',mod:'SISTEMAS',ti:'Características',de:'Holismo, equifinalidad, homeostasis, entropía.',co:'#3b82f6'},
+{em:'💎',mod:'INFORMACIÓN',ti:'Definición',de:'Datos procesados con significado y utilidad.',co:'#a855f7'},
+{em:'⏱️',mod:'INFORMACIÓN',ti:'Oportunidad',de:'Disponible cuando se necesita.',co:'#a855f7'},
+{em:'🎯',mod:'INFORMACIÓN',ti:'Precisión',de:'Correcta y confiable.',co:'#a855f7'},
+{em:'📝',mod:'INFORMACIÓN',ti:'Relevancia',de:'Pertinente al propósito.',co:'#a855f7'},
+{em:'🔄',mod:'INFORMACIÓN',ti:'Tratamiento',de:'Captura → Validación → Transformación → Distribución.',co:'#a855f7'},
+{em:'🌐',mod:'SI',ti:'Definición',de:'Agentes, códigos y procesos coordinados.',co:'#14b8a6'},
+{em:'📊',mod:'SI',ti:'Tipos (Pirámide)',de:'TPS → MIS → DSS → EIS.',co:'#14b8a6'},
+{em:'📋',mod:'SI',ti:'Ciclo de Vida',de:'9 fases desde conocimiento hasta mantenimiento.',co:'#14b8a6'},
+{em:'🎯',mod:'SI',ti:'Decisión e Información',de:'Calidad de info = efectividad de decisiones.',co:'#14b8a6'},
+];
+
+let maze,pr,pc,collected,score,lives,level,paused,gameOver,enemies,timer,questionsAnswered;
+const gc=document.getElementById('gc'),ctx=gc.getContext('2d');
+const mc=document.getElementById('mc'),mctx=mc.getContext('2d');
+
+const BASE=[
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+[1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,1,1,0,1,1,1,0,0,1,0,0,1,1,1,0,1,1,1,0,0,1,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,1,0,1,1,0,1,1,1,0,1,0,1,0,1,1,0,1,0,1,1,0,1,1],
+[1,0,1,0,1,0,0,0,0,1,0,1,0,1,0,0,0,0,1,0,0,0,0,0,1],
+[1,0,0,0,1,0,1,1,0,0,0,1,0,0,0,1,1,0,1,1,1,0,1,0,1],
+[1,1,1,0,1,0,0,1,0,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,1,1,1,0,1,1,0,1],
+[1,0,1,1,1,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,1,0,1,0,1,1,1,0,1,1,0,1,1,1,0,1,0,1],
+[1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,1,0,1],
+[1,0,0,0,0,1,1,1,0,1,1,1,1,0,1,1,0,1,1,0,0,0,1,0,1],
+[1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,0,1],
+[1,0,0,0,1,0,1,0,1,1,0,1,1,0,1,0,0,0,0,1,1,0,1,0,1],
+[1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1],
+[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]];
+
+function genLevel(lv){
+const m=BASE.map(r=>[...r]);
+m[1][1]=0;m[ROWS-2][COLS-2]=E;
+for(let r=1;r<ROWS-1;r++)for(let c=1;c<COLS-1;c++){
+if(m[r][c]===F&&Math.random()<0.04&&!(r===1&&c===1)&&!(r===ROWS-2&&c===COLS-2))m[r][c]=C}
+for(let r=1;r<ROWS-1;r++)for(let c=1;c<COLS-1;c++){
+if(m[r][c]===F&&Math.random()<0.035)m[r][c]=T}
+if(lv>=2)for(let r=1;r<ROWS-1;r++)for(let c=1;c<COLS-1;c++){
+if(m[r][c]===F&&Math.random()<0.02)m[r][c]=K}
+if(lv>=2){let d=0;for(let r=1;r<ROWS-1;r++)for(let c=1;c<COLS-1;c++){
+if(m[r][c]===F&&d<2+lv&&Math.random()<0.025){m[r][c]=D;d++}}}
+if(lv>=3){let mn=0;for(let r=1;r<ROWS-1;r++)for(let c=1;c<COLS-1;c++){
+if(m[r][c]===F&&mn<1+lv&&Math.random()<0.015){m[r][c]=M;mn++}}}
+return m}
+
+function init(){
+maze=genLevel(level);pr=1;pc=1;collected=new Set();score=0;lives=3;paused=false;gameOver=false;questionsAnswered=0;
+enemies=[];
+const eCount=Math.min(level+1,5);
+for(let i=0;i<eCount;i++){let er,ec;do{er=Math.floor(Math.random()*(ROWS-2))+1;ec=Math.floor(Math.random()*(COLS-2))+1}while(maze[er][ec]===W||maze[er][ec]===E||(er===1&&ec===1));
+enemies.push({r:er,c:ec,dr:Math.random()<0.5?1:-1,dc:0,spd:800+Math.random()*400,last:0})}
+document.getElementById('hL').textContent=lives;
+document.getElementById('hN').textContent=level+1;
+document.getElementById('hC').textContent='0';
+document.getElementById('hS').textContent='0';
+resize()}
+
+function resize(){const w=document.querySelector('.canvas-wrap');gc.width=w.clientWidth;gc.height=w.clientHeight}
+resize();window.addEventListener('resize',resize);
+
+const bar=document.getElementById('bar');bar.innerHTML='';
+CONCEPTS.forEach((d,i)=>{const c=document.createElement('span');c.className='chip '+(d.mod==='SISTEMAS'?'c1':d.mod==='INFORMACIÓN'?'c2':'c3');c.id='ch'+i;c.textContent=d.em+' '+d.ti;bar.appendChild(c)});
+
+function draw(ts){
+if(paused||gameOver)return;
+const cW=gc.width,cH=gc.height;
+const ox=(cW-COLS*CELL)/2,oy=(cH-ROWS*CELL)/2;
+ctx.fillStyle='#0f172a';ctx.fillRect(0,0,gc.width,gc.height);
+
+const fogR=level>=3?5:0;
+for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
+const x=ox+c*CELL,y=oy+r*CELL,v=maze[r][c];
+const dist=Math.sqrt((r-pr)**2+(c-pc)**2);
+if(fogR&&dist>fogR){ctx.fillStyle='rgba(15,23,42,0.85)';ctx.fillRect(x,y,CELL,CELL);continue}
+
+if(v===W){ctx.fillStyle='#1e293b';ctx.fillRect(x,y,CELL,CELL);ctx.fillStyle='rgba(0,0,0,0.25)';ctx.fillRect(x,y+CELL-3,CELL,3);ctx.strokeStyle='#0f172a';ctx.lineWidth=1;ctx.strokeRect(x+0.5,y+0.5,CELL-1,CELL-1)}
+else{ctx.fillStyle='#cbd5e1';ctx.fillRect(x,y,CELL,CELL);ctx.strokeStyle='rgba(71,85,105,0.4)';ctx.lineWidth=0.5;ctx.strokeRect(x,y,CELL,CELL)
+
+if(v===C){const p=Math.sin(ts/400)*3;ctx.fillStyle='rgba(168,85,247,0.2)';ctx.beginPath();ctx.arc(x+CELL/2,y+CELL/2,12+p,0,Math.PI*2);ctx.fill();ctx.font='bold 13px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#c084fc';ctx.fillText('💎',x+CELL/2,y+CELL/2)}
+if(v===T){const p=Math.sin(ts/250)*4;ctx.fillStyle='rgba(239,68,68,0.15)';ctx.beginPath();ctx.arc(x+CELL/2,y+CELL/2,10+p,0,Math.PI*2);ctx.fill();ctx.font='14px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#f87171';ctx.fillText('⚡',x+CELL/2,y+CELL/2)}
+if(v===K){const p=Math.sin(ts/350)*3;ctx.fillStyle='rgba(245,158,11,0.15)';ctx.beginPath();ctx.arc(x+CELL/2,y+CELL/2,11+p,0,Math.PI*2);ctx.fill();ctx.font='13px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#fbbf24';ctx.fillText('🔑',x+CELL/2,y+CELL/2)}
+if(v===D){ctx.fillStyle='rgba(239,68,68,0.3)';ctx.fillRect(x+2,y+2,CELL-4,CELL-4);ctx.strokeStyle='#ef4444';ctx.lineWidth=2;ctx.strokeRect(x+4,y+4,CELL-8,CELL-8);ctx.font='12px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#f87171';ctx.fillText('🔒',x+CELL/2,y+CELL/2)}
+if(v===M){ctx.font='12px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#f97316';ctx.fillText('💣',x+CELL/2,y+CELL/2)}
+if(v===P){const p=Math.sin(ts/300)*3;ctx.strokeStyle='rgba(20,184,166,0.5)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x+CELL/2,y+CELL/2,12+p,0,Math.PI*2);ctx.stroke();ctx.font='12px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#2dd4bf';ctx.fillText('🌀',x+CELL/2,y+CELL/2)}
+if(v===E){const p=Math.sin(ts/300)*4;ctx.fillStyle='rgba(245,158,11,0.15)';ctx.beginPath();ctx.arc(x+CELL/2,y+CELL/2,16+p,0,Math.PI*2);ctx.fill();ctx.strokeStyle='rgba(245,158,11,0.6)';ctx.lineWidth=2;ctx.setLineDash([4,3]);ctx.beginPath();ctx.arc(x+CELL/2,y+CELL/2,14,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);ctx.font='bold 14px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#fbbf24';ctx.fillText('⭐',x+CELL/2,y+CELL/2)}}}
+
+enemies.forEach(e=>{const ex=ox+e.c*CELL,ey=oy+e.r*CELL;
+ctx.fillStyle='rgba(239,68,68,0.2)';ctx.beginPath();ctx.arc(ex+CELL/2,ey+CELL/2,12,0,Math.PI*2);ctx.fill();
+ctx.font='16px serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#ef4444';ctx.fillText('👾',ex+CELL/2,ey+CELL/2)});
+
+const px=ox+pc*CELL,py=oy+pr*CELL,b=Math.sin(ts/180)*2;
+ctx.shadowColor='rgba(59,130,246,0.5)';ctx.shadowBlur=12;ctx.fillStyle='#3b82f6';ctx.beginPath();ctx.arc(px+CELL/2,py+CELL/2+b,10,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(px+CELL/2,py+CELL/2+b+3,3,0,Math.PI*2);ctx.fill();
+
+mctx.fillStyle='#0f172a';mctx.fillRect(0,0,120,120);const sc=120/COLS;
+for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const v=maze[r][c];mctx.fillStyle=v===W?'#1e293b':v===C?'#a855f7':v===T?'#ef4444':v===K?'#f59e0b':v===D?'#dc2626':v===M?'#f97316':v===P?'#14b8a6':v===E?'#f59e0b':'#cbd5e1';mctx.fillRect(c*sc,r*sc,sc,sc)}
+mctx.fillStyle='#3b82f6';mctx.fillRect(pc*sc-1,pr*sc-1,sc+2,sc+2);
+enemies.forEach(e=>{mctx.fillStyle='#ef4444';mctx.fillRect(e.c*sc,e.r*sc,sc,sc)});
+
+requestAnimationFrame(draw)}
+
+function updateEnemies(ts){
+enemies.forEach(e=>{if(ts-e.last>e.spd){e.last=ts;
+const nr=e.r+e.dr,nc=e.c+e.dc;
+if(nr<1||nr>=ROWS-1||nc<1||nc>=COLS-1||maze[nr][nc]===W||maze[nr][nc]===D){
+if(e.dc!==0){e.dc=0;e.dr=Math.random()<0.5?1:-1}
+else{e.dr=0;e.dc=Math.random()<0.5?1:-1}
+e.last=ts+200;return}
+e.r=nr;e.c=nc;
+if(e.r===pr&&e.c===pc)hitPlayer()}})}
+
+function hitPlayer(){
+lives--;document.getElementById('hL').textContent=lives;
+score=Math.max(0,score-50);document.getElementById('hS').textContent=score;
+if(lives<=0){gameOver=true;showPop({em:'💀',mod:'GAME OVER',ti:'Sin vidas',de:'Puntuación final: '+score+' puntos. Conceptos: '+collected.size+'/'+CONCEPTS.length,co:'#ef4444',btn:'🔄 Reiniciar',cb:()=>{level=0;init();requestAnimationFrame(draw)}});return}
+showPop({em:'👾',mod:'¡TE ATRAPARON!',ti:'-50 puntos',de:'Un enemigo te tocó. Pierdes 1 vida y 50 puntos.',co:'#ef4444',btn:'Continuar',cb:()=>{pr=1;pc=1}})}
+
+function move(dr,dc){
+if(paused||gameOver)return;
+const nr=pr+dr,nc=pc+dc;
+if(nr<0||nr>=ROWS||nc<0||nc>=COLS)return;
+const v=maze[nr][nc];
+if(v===W)return;
+if(v===D){showQuestion(()=>{maze[nr][nc]=F;pr=nr;pc=nc});return}
+if(v===P){const ps=[];for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(maze[r][c]===P&&(r!==nr||c!==nc))ps.push({r,c});if(ps.length){pr=ps[0].r;pc=ps[0].c}return}
+if(v===E){level=Math.min(level+1,4);showPop({em:'🎉',mod:'¡NIVEL '+((level)+1)+'!',ti:'¡Avanzaste de nivel!',de:'Los enemigos son más rápidos y hay más obstáculos.',co:'#22c55e',btn:'Jugar →',cb:()=>{init();requestAnimationFrame(draw)}});return}
+if(v===T){showQuestion(()=>{pr=nr;pc=nc});return}
+if(v===K){maze[nr][nc]=F;score+=200;showPop({em:'🔑',mod:'¡LLAVE!',ti:'+200 puntos',de:'Obtuviste una llave. Puedes abrir puertas bloqueadas.',co:'#f59e0b',btn:'Continuar',cb:()=>{pr=nr;pc=nc}});return}
+if(v===M){lives--;score=Math.max(0,score-100);maze[nr][nc]=F;document.getElementById('hL').textContent=lives;document.getElementById('hS').textContent=score;
+if(lives<=0){gameOver=true;showPop({em:'💀',mod:'GAME OVER',ti:'Sin vidas',de:'Puntuación final: '+score,co:'#ef4444',btn:'🔄 Reiniciar',cb:()=>{level=0;init();requestAnimationFrame(draw)}});return}
+showPop({em:'💣',mod:'¡MINA!',ti:'-1 vida, -100 pts',de:'Pisaste una mina. Cuidado con las炸弹.',co:'#f97316',btn:'Continuar',cb:()=>{}});return}
+pr=nr;pc=nc;
+if(v===C){maze[nr][nc]=F;const i=collected.size;if(i<CONCEPTS.length){collected.add(i);score+=100;document.getElementById('hC').textContent=collected.size;document.getElementById('hS').textContent=score;const ch=document.getElementById('ch'+i);if(ch)ch.classList.add('on');
+showPop({...CONCEPTS[i],btn:'Continuar →',cb:()=>{}})}}}
+
+function showQuestion(cb){
+paused=true;
+const qi=Math.floor(Math.random()*QUESTIONS.length);
+const q=QUESTIONS[qi];
+const opts=q.a.map((a,i)=>'<div class="qopt" onclick="answerQ('+i+','+q.ok+',this)">'+a+'</div>').join('');
+showPop({em:'❓',mod:'PREGUNTA',ti:q.q,de:'',co:'#f59e0b',qopts:opts,btn:'',cb:cb,hideBtn:true});
+window._qCb=cb}
+
+function answerQ(chosen,correct,el){
+if(el.parentElement.dataset.done)return;
+el.parentElement.dataset.done='1';
+const opts=el.parentElement.querySelectorAll('.qopt');
+opts.forEach(o=>o.style.pointerEvents='none');
+if(chosen===correct){el.classList.add('ok');score+=150;document.getElementById('hS').textContent=score;
+setTimeout(()=>{closePop();if(window._qCb)window._qCb();paused=false},800)}
+else{el.classList.add('no');opts.forEach((o,i)=>{if(i===correct)o.classList.add('ok')});
+lives--;document.getElementById('hL').textContent=lives;
+if(lives<=0){gameOver=true;setTimeout(()=>{closePop();showPop({em:'💀',mod:'GAME OVER',ti:'Sin vidas',de:'Puntuación final: '+score,co:'#ef4444',btn:'🔄 Reiniciar',cb:()=>{level=0;init();requestAnimationFrame(draw)}})},1000)}
+else{setTimeout(()=>{closePop();paused=false},1200)}}}
+
+let lastK=0;
+document.addEventListener('keydown',e=>{if(paused||gameOver)return;const now=Date.now();if(now-lastK<100)return;const k=e.key;
+if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','w','a','s','d'].includes(k))e.preventDefault();
+if(k==='ArrowUp'||k==='w')move(-1,0);if(k==='ArrowDown'||k==='s')move(1,0);if(k==='ArrowLeft'||k==='a')move(0,-1);if(k==='ArrowRight'||k==='d')move(0,1);lastK=now});
+
+let tx,ty;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+document.addEventListener('touchend',e=>{if(!tx||paused||gameOver)return;const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;if(Math.abs(dx)>Math.abs(dy))move(0,dx>0?1:-1);else move(dy>0?1:-1,0);tx=ty=null},{passive:true});
+
+function showPop(d){
+const p=document.getElementById('pop');
+document.getElementById('pEm').textContent=d.em;
+document.getElementById('pMod').textContent=d.mod;document.getElementById('pMod').style.color=d.co;
+document.getElementById('pTi').textContent=d.ti;document.getElementById('pTi').style.color=d.co;
+document.getElementById('pDe').textContent=d.de||'';
+document.getElementById('popBox').style.borderColor=d.co;
+const qs=document.getElementById('pQs');qs.innerHTML=d.qopts||'';
+const btn=document.getElementById('pBt');
+if(d.hideBtn){btn.style.display='none'}else{btn.style.display='';btn.textContent=d.btn||'Continuar';btn.style.background=d.co;btn.onclick=()=>{closePop();if(d.cb)d.cb()}}
+p.classList.add('show')}
+
+function closePop(){document.getElementById('pop').classList.remove('show')}
+
+function gameLoop(ts){if(!gameOver){updateEnemies(ts);draw(ts)}}
+level=0;init();requestAnimationFrame(gameLoop);
+</script>
+</body>
+</html>
