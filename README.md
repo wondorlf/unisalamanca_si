@@ -114,31 +114,6 @@ Este proyecto es una aplicación web interactiva que cubre los siguientes módul
    - **Presentación** - Recorrer las diapositivas
    - **Quiz** - Evaluar conocimientos
 
-> **Nota:** No requiere servidor local. Funciona directamente abriendo los archivos HTML.
-
----
-
-## Funcionalidades Destacadas
-
-- **Tema oscuro** con paleta de colores azul rey
-- **Diseño responsive** para desktop, tablet y móvil
-- **Fuentes grandes** para mejor legibilidad
-- **Hover effects** en todas las tarjetas y elementos
-- **Transiciones suaves** en cada interacción
-- **Integrantes del grupo** visibles en el pie de página de cada sección
-
----
-
-## Referencias Bibliográficas
-
-- Sommerville, I. (2016). *Ingeniería de Software*. Pearson.
-- Pressman, R. S. (2014). *Ingeniería de Software*. McGraw-Hill.
-- Laudon, K. & Laudon, J. (2020). *Sistemas de Información Gerencial*. Pearson.
-- O'Brien, J. & Marakas, G. (2017). *Management Information Systems*. McGraw-Hill.
-- Bunge, M. (1999). *Diccionario de Filosofía*. Siglo XXI.
-- Bertalanffy, L. von (1945). *Teoría General de Sistemas*.
-- Shannon, C. (1948). *A Mathematical Theory of Communication*.
-
 ---
 
 **Universidad UniSalamanca · 2026-2 · Grupo 4**
