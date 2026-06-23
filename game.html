@@ -163,7 +163,6 @@ const bar=document.getElementById('bar');bar.innerHTML='';
 CONCEPTS.forEach((d,i)=>{const c=document.createElement('span');c.className='chip '+(d.mod==='SISTEMAS'?'c1':d.mod==='INFORMACIÓN'?'c2':'c3');c.id='ch'+i;c.textContent=d.em+' '+d.ti;bar.appendChild(c)});
 
 function draw(ts){
-if(paused||gameOver)return;
 const cW=gc.width,cH=gc.height;
 const ox=(cW-COLS*CELL)/2,oy=(cH-ROWS*CELL)/2;
 ctx.fillStyle='#0f172a';ctx.fillRect(0,0,gc.width,gc.height);
@@ -217,7 +216,7 @@ if(lives<=0){gameOver=true;showPop({em:'💀',mod:'GAME OVER',ti:'Sin vidas',de:
 showPop({em:'👾',mod:'¡TE ATRAPARON!',ti:'-50 puntos',de:'Un enemigo te tocó. Pierdes 1 vida y 50 puntos.',co:'#ef4444',btn:'Continuar',cb:()=>{pr=1;pc=1}})}
 
 function move(dr,dc){
-if(paused||gameOver)return;
+if(gameOver)return;
 const nr=pr+dr,nc=pc+dc;
 if(nr<0||nr>=ROWS||nc<0||nc>=COLS)return;
 const v=maze[nr][nc];
@@ -277,7 +276,7 @@ p.classList.add('show')}
 
 function closePop(){document.getElementById('pop').classList.remove('show')}
 
-function gameLoop(ts){if(!gameOver){updateEnemies(ts);draw(ts)}}
+function gameLoop(ts){requestAnimationFrame(gameLoop);if(paused||gameOver)return;updateEnemies(ts);draw(ts)}
 level=0;init();requestAnimationFrame(gameLoop);
 </script>
 </body>
