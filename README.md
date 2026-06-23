@@ -20,8 +20,8 @@ Trabajo desarrollado para sustentar los temas fundamentales del curso de **Anál
 
 ## Integrantes del Grupo
 
-| Nombre | Rol |
-|--------|-----|
+| Nombre |
+|--------|
 | **Jeimy Calderón** | 
 | **Jorge Montiel** | 
 | **Kevin Morales** | 
