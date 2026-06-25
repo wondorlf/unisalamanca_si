@@ -50,7 +50,7 @@ ul.cl li:hover::before{color:#60a5fa;transform:scale(1.3)}
 .t3{background:rgba(59,130,246,0.2);color:#bfdbfe;border:1.5px solid #3b82f6}
 .t4{background:rgba(147,197,253,0.2);color:#bfdbfe;border:1.5px solid #60a5fa}
 .pyr{display:flex;flex-direction:column;align-items:center;gap:5px;margin:16px 0}
-.pyr div{padding:14px 20px;border-radius:10px;color:#fff;font-weight:800;text-align:center;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);cursor:default;position:relative;overflow:hidden}
+.pyr div{padding:16px 22px;border-radius:10px;color:#fff;font-weight:800;text-align:center;transition:all 0.4s cubic-bezier(0.16,1,0.3,1);cursor:default;position:relative;overflow:hidden;font-size:1.05em}
 .pyr div::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);transition:left 0.5s}
 .pyr div:hover::after{left:100%}
 .pyr div:hover{transform:scale(1.06);filter:brightness(1.15);box-shadow:0 8px 25px rgba(0,0,0,0.3)}
@@ -82,19 +82,90 @@ ul.cl li:hover::before{color:#60a5fa;transform:scale(1.3)}
 .ft{background:#1e3a8a;padding:10px 24px;text-align:center;border-top:2px solid #3b82f6;flex-shrink:0;z-index:100}
 .ft p{color:#bfdbfe;font-size:0.95em;font-weight:600}.ft strong{color:#fff}
 .stat-num{font-size:3.2em;font-weight:900;color:#60a5fa;text-align:center}
-.qo{background:rgba(30,41,59,0.8);border:2px solid #374151;border-radius:12px;padding:14px 20px;cursor:pointer;transition:all 0.3s;font-weight:600;color:#e2e8f0;margin-bottom:10px;font-size:1.02em}
-.qo:hover{border-color:#3b82f6;color:#e2e8f0;background:rgba(59,130,246,0.1);transform:translateX(4px)}
-.qo.ok{background:rgba(34,197,94,0.15);border-color:#22c55e;color:#4ade80;pointer-events:none}
-.qo.no{background:rgba(239,68,68,0.15);border-color:#ef4444;color:#f87171;pointer-events:none}
-.pyr div{padding:16px 22px;font-size:1.05em}
-@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr!important}.slide{padding:20px 24px}.s1 h1{font-size:2.2em}.s1 .sub{font-size:1.2em}h2{font-size:2em}.pyr div{width:100%!important;max-width:300px}.flow{flex-direction:column;align-items:center}.flow div{width:100%;max-width:300px}}
-@media(max-width:600px){.s1 h1{font-size:1.7em}.h2{font-size:1.6em}.cd{padding:18px}.box{padding:20px}.nav{flex-wrap:wrap;gap:10px}.nav button{padding:10px 18px;font-size:0.9em}.ft p{font-size:0.85em}}
+.gc{border-radius:14px;padding:20px;text-align:center;color:#fff;transition:all 0.3s}
+.gc:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,0.3)}
+.gc h3{color:#fff;font-weight:800;margin-bottom:6px}
+.gc p{color:rgba(255,255,255,0.85);font-size:0.9em;line-height:1.5}
+.gc-blue{background:linear-gradient(135deg,#1e3a8a,#3b82f6)}
+.gc-purple{background:linear-gradient(135deg,#4c1d95,#a855f7)}
+.gc-teal{background:linear-gradient(135deg,#065f46,#14b8a6)}
+.gc-amber{background:linear-gradient(135deg,#78350f,#f59e0b)}
+.gc-indigo{background:linear-gradient(135deg,#312e81,#6366f1)}
+.gc-rose{background:linear-gradient(135deg,#881337,#f43f5e)}
+@keyframes floatAnim{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@media(max-width:1200px){.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.g2,.g3,.g4{grid-template-columns:1fr!important}.slide{padding:20px 24px}.s1 h1{font-size:2.2em}.s1 .sub{font-size:1.2em}h2{font-size:2em}.pyr div{width:100%!important;max-width:300px}.flow{flex-direction:column;align-items:center}.flow div{width:100%;max-width:300px}[style*="grid-template-columns:repeat(3"]{grid-template-columns:1fr 1fr!important}[style*="grid-template-columns:repeat(4"]{grid-template-columns:1fr 1fr!important}}
+@media(max-width:600px){.s1 h1{font-size:1.7em}h2{font-size:1.6em}.cd{padding:18px}.box{padding:20px}.nav{flex-wrap:wrap;gap:10px}.nav button{padding:10px 18px;font-size:0.9em}.ft p{font-size:0.85em}[style*="grid-template-columns:repeat(3"]{grid-template-columns:1fr!important}[style*="grid-template-columns:repeat(4"]{grid-template-columns:1fr!important}.gc{padding:16px 12px}.gc h3{font-size:1em}}
 </style>
 </head>
 <body>
+<div id="imgModal" onclick="closeImgModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px)">
+<img id="modalImg" onclick="event.stopPropagation()" src="" style="max-width:90vw;max-height:90vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.6);cursor:default">
+</div>
+<div id="galleryModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;cursor:pointer;backdrop-filter:blur(4px)" onclick="closeGalleryModal()">
+<div onclick="event.stopPropagation()" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;pointer-events:none">
+<h2 style="text-align:center;color:#fff;margin-bottom:16px;font-size:1.4em">9 Fases del Ciclo de Vida del SI</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:800px;width:100%">
+<div style="background:linear-gradient(135deg,#065f46,#14b8a6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><rect x="15" y="10" width="50" height="60" rx="4" fill="#fff" opacity="0.9"/><rect x="20" y="18" width="40" height="4" rx="2" fill="#14b8a6"/><rect x="20" y="26" width="30" height="4" rx="2" fill="#14b8a6" opacity="0.6"/><rect x="20" y="34" width="35" height="4" rx="2" fill="#14b8a6" opacity="0.4"/><circle cx="55" cy="55" r="14" fill="#fbbf24"/><text x="55" y="60" text-anchor="middle" fill="#065f46" font-size="14" font-weight="900">1</text></svg><div style="color:#fff;font-weight:800;font-size:0.9em">Planificación</div></div>
+<div style="background:linear-gradient(135deg,#065f46,#14b8a6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><circle cx="35" cy="35" r="22" fill="none" stroke="#fff" stroke-width="4" opacity="0.9"/><line x1="51" y1="51" x2="65" y2="65" stroke="#fff" stroke-width="4" stroke-linecap="round"/><rect x="25" y="28" width="20" height="3" rx="1.5" fill="#fbbf24"/><rect x="25" y="35" width="14" height="3" rx="1.5" fill="#fbbf24" opacity="0.7"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">Análisis</div></div>
+<div style="background:linear-gradient(135deg,#065f46,#14b8a6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><rect x="12" y="15" width="56" height="45" rx="4" fill="#fff" opacity="0.9"/><line x1="20" y1="28" x2="50" y2="28" stroke="#14b8a6" stroke-width="2"/><line x1="20" y1="36" x2="42" y2="36" stroke="#14b8a6" stroke-width="2"/><line x1="20" y1="44" x2="46" y2="44" stroke="#14b8a6" stroke-width="2"/><polygon points="55,50 65,45 65,55" fill="#fbbf24"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">Diseño</div></div>
+<div style="background:linear-gradient(135deg,#065f46,#14b8a6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><rect x="15" y="12" width="50" height="40" rx="4" fill="#fff" opacity="0.9"/><text x="40" y="30" text-anchor="middle" fill="#14b8a6" font-size="8" font-weight="700">&lt;/&gt;</text><rect x="20" y="36" width="12" height="8" rx="2" fill="#14b8a6" opacity="0.5"/><rect x="35" y="36" width="12" height="8" rx="2" fill="#14b8a6" opacity="0.5"/><rect x="50" y="36" width="8" height="8" rx="2" fill="#fbbf24"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">Desarrollo</div></div>
+<div style="background:linear-gradient(135deg,#065f46,#14b8a6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><rect x="18" y="10" width="44" height="55" rx="4" fill="#fff" opacity="0.9"/><rect x="25" y="18" width="30" height="4" rx="2" fill="#14b8a6"/><rect x="25" y="26" width="25" height="4" rx="2" fill="#14b8a6" opacity="0.6"/><circle cx="40" cy="52" r="8" fill="#22c55e"/><polyline points="36,52 39,55 45,49" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">Pruebas</div></div>
+<div style="background:linear-gradient(135deg,#065f46,#14b8a6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><polygon points="40,10 50,35 40,30 30,35" fill="#fbbf24"/><rect x="30" y="35" width="20" height="30" rx="3" fill="#fff" opacity="0.9"/><rect x="35" y="42" width="10" height="6" rx="2" fill="#14b8a6"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">Implementación</div></div>
+<div style="background:linear-gradient(135deg,#065f46,#14b8a6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><circle cx="40" cy="22" r="10" fill="#fff" opacity="0.9"/><rect x="25" y="35" width="30" height="25" rx="4" fill="#fff" opacity="0.9"/><circle cx="25" cy="22" r="6" fill="#fff" opacity="0.5"/><circle cx="55" cy="22" r="6" fill="#fff" opacity="0.5"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">Capacitación</div></div>
+<div style="background:linear-gradient(135deg,#065f46,#14b8a6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><circle cx="40" cy="35" r="18" fill="none" stroke="#fff" stroke-width="3" opacity="0.9"/><circle cx="40" cy="35" r="6" fill="#fbbf24"/><line x1="40" y1="35" x2="48" y2="28" stroke="#fff" stroke-width="2"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">Mantenimiento</div></div>
+<div style="background:linear-gradient(135deg,#065f46,#14b8a6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><rect x="15" y="45" width="10" height="20" rx="2" fill="#fff" opacity="0.6"/><rect x="28" y="35" width="10" height="30" rx="2" fill="#fff" opacity="0.7"/><rect x="41" y="25" width="10" height="40" rx="2" fill="#fff" opacity="0.8"/><rect x="54" y="15" width="10" height="50" rx="2" fill="#fff" opacity="0.9"/><polyline points="20,42 33,32 46,22 59,12" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/><polygon points="59,12 54,18 62,16" fill="#fbbf24"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">Evaluación</div></div>
+</div>
+<p style="text-align:center;color:#94a3b8;margin-top:12px;font-size:0.85em">Haz clic fuera para cerrar</p>
+</div>
+</div>
+
+<div id="componentesModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;cursor:pointer;backdrop-filter:blur(4px)" onclick="closeComponentesModal()">
+<div onclick="event.stopPropagation()" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;pointer-events:none">
+<h2 style="text-align:center;color:#fff;margin-bottom:16px;font-size:1.4em">6 Componentes de un SI</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:750px;width:100%;pointer-events:none">
+<div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><circle cx="30" cy="25" r="10" fill="#fff" opacity="0.9"/><circle cx="50" cy="25" r="8" fill="#fff" opacity="0.7"/><rect x="15" y="40" width="30" height="25" rx="4" fill="#fff" opacity="0.9"/><rect x="40" y="42" width="25" height="20" rx="4" fill="#fff" opacity="0.7"/></svg><div style="color:#fff;font-weight:800;font-size:0.95em">Personas</div></div>
+<div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><rect x="15" y="15" width="30" height="45" rx="3" fill="#fff" opacity="0.9"/><rect x="50" y="25" width="18" height="30" rx="2" fill="#fff" opacity="0.7"/><rect x="20" y="55" width="40" height="4" rx="2" fill="#3b82f6"/></svg><div style="color:#fff;font-weight:800;font-size:0.95em">Hardware</div></div>
+<div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><rect x="12" y="15" width="56" height="40" rx="4" fill="#fff" opacity="0.9"/><rect x="20" y="22" width="40" height="3" rx="1.5" fill="#3b82f6"/><rect x="20" y="29" width="30" height="3" rx="1.5" fill="#3b82f6" opacity="0.6"/><rect x="30" y="58" width="20" height="4" rx="2" fill="#fbbf24" opacity="0.6"/></svg><div style="color:#fff;font-weight:800;font-size:0.95em">Software</div></div>
+<div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><ellipse cx="40" cy="50" rx="22" ry="8" fill="#fff" opacity="0.3"/><ellipse cx="40" cy="42" rx="22" ry="8" fill="#fff" opacity="0.5"/><ellipse cx="40" cy="34" rx="22" ry="8" fill="#fff" opacity="0.7"/><ellipse cx="40" cy="26" rx="22" ry="8" fill="#fff" opacity="0.9"/></svg><div style="color:#fff;font-weight:800;font-size:0.95em">Datos</div></div>
+<div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><rect x="20" y="15" width="40" height="50" rx="4" fill="#fff" opacity="0.9"/><rect x="26" y="22" width="28" height="4" rx="2" fill="#3b82f6"/><rect x="26" y="30" width="22" height="4" rx="2" fill="#3b82f6" opacity="0.6"/><rect x="26" y="38" width="25" height="4" rx="2" fill="#3b82f6" opacity="0.4"/><rect x="26" y="46" width="18" height="4" rx="2" fill="#fbbf24" opacity="0.5"/></svg><div style="color:#fff;font-weight:800;font-size:0.95em">Procedimientos</div></div>
+<div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><circle cx="40" cy="35" r="18" fill="none" stroke="#fff" stroke-width="3" opacity="0.9"/><line x1="22" y1="35" x2="58" y2="35" stroke="#fff" stroke-width="1.5" opacity="0.5"/><line x1="40" y1="17" x2="40" y2="53" stroke="#fff" stroke-width="1.5" opacity="0.5"/><circle cx="25" cy="25" r="4" fill="#fbbf24"/><circle cx="55" cy="45" r="4" fill="#fbbf24"/></svg><div style="color:#fff;font-weight:800;font-size:0.95em">Redes</div></div>
+</div>
+<p style="text-align:center;color:#94a3b8;margin-top:12px;font-size:0.85em;pointer-events:none">Haz clic fuera para cerrar</p>
+</div>
+</div>
+
+<div id="tiposModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;cursor:pointer;backdrop-filter:blur(4px)" onclick="closeTiposModal()">
+<div onclick="event.stopPropagation()" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;pointer-events:none">
+<h2 style="text-align:center;color:#fff;margin-bottom:16px;font-size:1.4em">6 Tipos de Sistemas de Información</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:750px;width:100%;pointer-events:none">
+<div style="background:linear-gradient(135deg,#4c1d95,#a855f7);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><rect x="15" y="20" width="50" height="40" rx="4" fill="#fff" opacity="0.9"/><rect x="22" y="28" width="16" height="4" rx="2" fill="#a855f7"/><rect x="22" y="36" width="12" height="4" rx="2" fill="#a855f7" opacity="0.6"/><rect x="22" y="44" width="14" height="4" rx="2" fill="#a855f7" opacity="0.4"/><rect x="42" y="28" width="16" height="20" rx="2" fill="#fbbf24" opacity="0.5"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">TPS</div></div>
+<div style="background:linear-gradient(135deg,#4c1d95,#a855f7);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><rect x="12" y="18" width="56" height="42" rx="4" fill="#fff" opacity="0.9"/><rect x="18" y="25" width="24" height="28" rx="2" fill="#a855f7" opacity="0.3"/><rect x="46" y="25" width="16" height="12" rx="2" fill="#fbbf24" opacity="0.5"/><rect x="46" y="41" width="16" height="12" rx="2" fill="#a855f7" opacity="0.4"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">MIS</div></div>
+<div style="background:linear-gradient(135deg,#4c1d95,#a855f7);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><circle cx="40" cy="35" r="18" fill="none" stroke="#fff" stroke-width="3" opacity="0.9"/><line x1="40" y1="17" x2="40" y2="35" stroke="#fbbf24" stroke-width="3"/><line x1="40" y1="35" x2="52" y2="45" stroke="#fff" stroke-width="2"/><circle cx="40" cy="35" r="4" fill="#fbbf24"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">DSS</div></div>
+<div style="background:linear-gradient(135deg,#4c1d95,#a855f7);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><rect x="10" y="15" width="25" height="50" rx="3" fill="#fff" opacity="0.9"/><rect x="38" y="15" width="32" height="22" rx="3" fill="#fff" opacity="0.9"/><rect x="38" y="41" width="32" height="24" rx="3" fill="#fff" opacity="0.7"/><circle cx="54" cy="26" r="6" fill="#fbbf24" opacity="0.6"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">ERP</div></div>
+<div style="background:linear-gradient(135deg,#4c1d95,#a855f7);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><circle cx="30" cy="30" r="12" fill="#fff" opacity="0.9"/><circle cx="50" cy="30" r="10" fill="#fff" opacity="0.7"/><path d="M30,42 Q40,55 50,42" fill="none" stroke="#fbbf24" stroke-width="2"/><circle cx="40" cy="55" r="6" fill="#fff" opacity="0.5"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">CRM</div></div>
+<div style="background:linear-gradient(135deg,#4c1d95,#a855f7);border-radius:12px;padding:16px;text-align:center"><svg viewBox="0 0 80 80" style="width:55px;height:55px;margin:0 auto 8px;display:block"><rect x="12" y="18" width="56" height="42" rx="4" fill="#fff" opacity="0.9"/><rect x="18" y="24" width="20" height="30" rx="2" fill="#a855f7" opacity="0.3"/><rect x="42" y="24" width="20" height="14" rx="2" fill="#fbbf24" opacity="0.5"/><rect x="42" y="42" width="20" height="12" rx="2" fill="#a855f7" opacity="0.4"/></svg><div style="color:#fff;font-weight:800;font-size:0.9em">EIS</div></div>
+</div>
+<p style="text-align:center;color:#94a3b8;margin-top:12px;font-size:0.85em;pointer-events:none">Haz clic fuera para cerrar</p>
+</div>
+</div>
+
+<div id="nivelesModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:9999;cursor:pointer;backdrop-filter:blur(4px)" onclick="closeNivelesModal()">
+<div onclick="event.stopPropagation()" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;pointer-events:none">
+<h2 style="text-align:center;color:#fff;margin-bottom:16px;font-size:1.4em">3 Niveles de Decisión</h2>
+<div style="display:flex;gap:16px;max-width:800px;width:100%;pointer-events:none">
+<div style="background:linear-gradient(135deg,#7c2d12,#ea580c);border-radius:12px;padding:20px;text-align:center;flex:1"><svg viewBox="0 0 80 80" style="width:60px;height:60px;margin:0 auto 10px;display:block"><rect x="15" y="20" width="50" height="35" rx="4" fill="#fff" opacity="0.9"/><rect x="20" y="26" width="40" height="3" rx="1.5" fill="#ea580c"/><rect x="20" y="33" width="30" height="3" rx="1.5" fill="#ea580c" opacity="0.6"/><rect x="20" y="40" width="35" height="3" rx="1.5" fill="#ea580c" opacity="0.4"/><rect x="30" y="58" width="20" height="4" rx="2" fill="#fbbf24" opacity="0.6"/></svg><div style="color:#fff;font-weight:800;font-size:1em">Estratégico</div><p style="color:rgba(255,255,255,0.7);font-size:0.8em;margin-top:4px">Alta Gerencia</p></div>
+<div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6);border-radius:12px;padding:20px;text-align:center;flex:1"><svg viewBox="0 0 80 80" style="width:60px;height:60px;margin:0 auto 10px;display:block"><rect x="12" y="18" width="56" height="42" rx="4" fill="#fff" opacity="0.9"/><rect x="18" y="25" width="24" height="28" rx="2" fill="#3b82f6" opacity="0.3"/><rect x="46" y="25" width="16" height="12" rx="2" fill="#fbbf24" opacity="0.5"/><rect x="46" y="41" width="16" height="12" rx="2" fill="#3b82f6" opacity="0.4"/></svg><div style="color:#fff;font-weight:800;font-size:1em">Táctico</div><p style="color:rgba(255,255,255,0.7);font-size:0.8em;margin-top:4px">Gerencia Media</p></div>
+<div style="background:linear-gradient(135deg,#065f46,#14b8a6);border-radius:12px;padding:20px;text-align:center;flex:1"><svg viewBox="0 0 80 80" style="width:60px;height:60px;margin:0 auto 10px;display:block"><circle cx="40" cy="30" r="12" fill="#fff" opacity="0.9"/><rect x="20" y="48" width="40" height="18" rx="4" fill="#fff" opacity="0.8"/><rect x="25" y="52" width="30" height="3" rx="1.5" fill="#14b8a6"/><rect x="25" y="58" width="22" height="3" rx="1.5" fill="#14b8a6" opacity="0.6"/></svg><div style="color:#fff;font-weight:800;font-size:1em">Operativo</div><p style="color:rgba(255,255,255,0.7);font-size:0.8em;margin-top:4px">Personal Operativo</p></div>
+</div>
+<p style="text-align:center;color:#94a3b8;margin-top:12px;font-size:0.85em;pointer-events:none">Haz clic fuera para cerrar</p>
+</div>
+</div>
+
 <header class="hdr"><div class="ic">US</div><div class="tx">Uni<span>Salamanca</span></div></header>
 
 <div class="slides">
+
 <!-- S1 PORTADA -->
 <div class="slide s1 active" id="s1">
 <div style="font-size:4em;margin-bottom:12px;animation:floatAnim 3s ease-in-out infinite">🖥️</div>
@@ -102,99 +173,75 @@ ul.cl li:hover::before{color:#60a5fa;transform:scale(1.3)}
 <p class="sub">Sistemas · Información · Sistemas de Información</p>
 <p class="meta">Ingeniería de Sistemas | Fundamentos</p>
 <div style="margin-top:24px;display:flex;gap:10px;justify-content:center">
-<span class="tag t1">3 Módulos</span><span class="tag t2">Fundamentos</span><span class="tag t3">Práctico</span><span class="tag t4">16 Páginas</span>
+<span class="tag t1">3 Módulos</span><span class="tag t2">Fundamentos</span><span class="tag t3">Práctico</span><span class="tag t4">19 Diapositivas</span>
 </div>
 </div>
 
 <!-- S2 CONTENIDO -->
-<div class="slide" id="s2">
+<div class="slide" id="s2" style="justify-content:center">
 <h2><span>Contenido</span></h2>
-<div class="g3">
-<div class="cd" onclick="go(3)" style="cursor:pointer"><div style="font-size:2.5em;margin-bottom:8px">⚙️</div><h3>Módulo 1: Sistemas</h3><p>Concepto, análisis, diseño, usuarios, elementos, tipos.</p><div style="margin-top:8px"><span class="tag t1">Pág. 3-6</span></div></div>
-<div class="cd cpur" onclick="go(7)" style="cursor:pointer"><div style="font-size:2.5em;margin-bottom:8px">💎</div><h3>Módulo 2: Información</h3><p>Definición, características, tipos, tratamiento.</p><div style="margin-top:8px"><span class="tag t2">Pág. 7-9</span></div></div>
-<div class="cd ctea" onclick="go(10)" style="cursor:pointer"><div style="font-size:2.5em;margin-bottom:8px">🌐</div><h3>Módulo 3: Sistemas de Información</h3><p>Definición, operaciones, tipos, decisiones.</p><div style="margin-top:8px"><span class="tag t3">Pág. 10-14</span></div></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;width:100%;padding:0 20px">
+<div class="gc gc-blue" onclick="go(3)" style="cursor:pointer;padding:28px 20px"><div style="font-size:2.8em;margin-bottom:10px">⚙️</div><h3 style="font-size:1.2em;margin-bottom:8px">Módulo 1: Sistemas</h3><p style="margin-bottom:12px">Concepto, análisis, diseño, usuarios, elementos, tipos.</p><span style="background:rgba(255,255,255,0.2);padding:5px 14px;border-radius:14px;font-size:0.8em;font-weight:700">Diap. 3-6</span></div>
+<div class="gc gc-purple" onclick="go(7)" style="cursor:pointer;padding:28px 20px"><div style="font-size:2.8em;margin-bottom:10px">💎</div><h3 style="font-size:1.2em;margin-bottom:8px">Módulo 2: Información</h3><p style="margin-bottom:12px">Definición, características, tipos, tratamiento.</p><span style="background:rgba(255,255,255,0.2);padding:5px 14px;border-radius:14px;font-size:0.8em;font-weight:700">Diap. 7-9</span></div>
+<div class="gc gc-teal" onclick="go(10)" style="cursor:pointer;padding:28px 20px"><div style="font-size:2.8em;margin-bottom:10px">🌐</div><h3 style="font-size:1.2em;margin-bottom:8px">Módulo 3: Sistemas de Información</h3><p style="margin-bottom:12px">Definición, operaciones, tipos, decisiones.</p><span style="background:rgba(255,255,255,0.2);padding:5px 14px;border-radius:14px;font-size:0.8em;font-weight:700">Diap. 10-19</span></div>
 </div>
 </div>
 
-<!-- S3 CONCEPTO DE SISTEMA -->
-<div class="slide" id="s3">
+<!-- S3 MÓDULO 1 INTRO -->
+<div class="slide" id="s3" style="justify-content:center">
 <h2><span>MÓDULO 1: SISTEMAS</span></h2>
 <div class="box" style="text-align:center">
 <h3 style="font-size:1.5em;margin-bottom:16px">Concepto de Sistema</h3>
-<svg class="diagram" viewBox="0 0 700 140" style="max-width:680px;margin:0 auto 16px">
-<defs>
-<linearGradient id="g1" x1="0%" x2="100%"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#a855f7"/></linearGradient>
-<filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-</defs>
-<rect x="20" y="30" width="130" height="80" rx="12" fill="rgba(59,130,246,0.1)" stroke="#3b82f6" stroke-width="2"/>
-<text x="85" y="60" text-anchor="middle" fill="#1a56db" font-size="12" font-weight="800">ENTRADAS</text>
-<text x="85" y="80" text-anchor="middle" fill="#3d4f6f" font-size="10">Datos, insumos</text>
-<polygon points="170,70 195,55 195,85" fill="#1a56db" opacity="0.7"><animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/></polygon>
-<rect x="215" y="20" width="160" height="100" rx="14" fill="#dbeafe" stroke="url(#g1)" stroke-width="2.5" filter="url(#glow)"/>
-<text x="295" y="55" text-anchor="middle" fill="#0d1b2a" font-size="16" font-weight="900">PROCESO</text>
-<text x="295" y="75" text-anchor="middle" fill="#3d4f6f" font-size="11">Transformación</text>
-<text x="295" y="95" text-anchor="middle" fill="#3d4f6f" font-size="9">de datos a información</text>
-<polygon points="395,70 420,55 420,85" fill="#7c3aed" opacity="0.7"><animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" begin="0.3s"/></polygon>
-<rect x="440" y="30" width="130" height="80" rx="12" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
-<text x="505" y="60" text-anchor="middle" fill="#7c3aed" font-size="12" font-weight="800">SALIDAS</text>
-<text x="505" y="80" text-anchor="middle" fill="#3d4f6f" font-size="10">Resultados</text>
-<path d="M505,115 Q505,135 295,135 Q85,135 85,115" fill="none" stroke="#0d9488" stroke-width="2" stroke-dasharray="6 4">
-<animate attributeName="stroke-dashoffset" values="200;0" dur="3s" repeatCount="indefinite"/></path>
-<text x="295" y="133" text-anchor="middle" fill="#0d9488" font-size="10" font-weight="700">↻ Retroalimentación</text>
-</svg>
-<div class="quote" style="text-align:left">"Un sistema es un conjunto de elementos interrelacionados para lograr un mismo objetivo."<cite>— Ludwig von Bertalanffy (1945)</cite></div>
+<div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:0 auto 16px;max-width:900px">
+<div style="background:linear-gradient(135deg,#065f46,#14b8a6);border-radius:14px;padding:20px;text-align:center;flex:1;min-width:200px;max-width:250px"><svg viewBox="0 0 100 80" style="width:80px;height:64px;margin:0 auto 10px;display:block"><rect x="10" y="5" width="80" height="50" rx="6" fill="#fff" opacity="0.95"/><rect x="18" y="14" width="30" height="5" rx="2" fill="#14b8a6"/><rect x="18" y="23" width="22" height="5" rx="2" fill="#14b8a6" opacity="0.6"/><rect x="18" y="32" width="26" height="5" rx="2" fill="#14b8a6" opacity="0.4"/><rect x="55" y="14" width="28" height="30" rx="3" fill="#14b8a6" opacity="0.3"/><circle cx="69" cy="29" r="8" fill="#fbbf24" opacity="0.8"/><polygon points="65,48 69,58 73,48" fill="#14b8a6"/></svg><div style="color:#fff;font-weight:800;font-size:1.1em;margin-bottom:4px">ENTRADA</div><p style="color:rgba(255,255,255,0.8);font-size:0.85em">Datos que se capturan o reciben del entorno</p></div>
+<div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6);border-radius:14px;padding:20px;text-align:center;flex:1;min-width:200px;max-width:250px"><svg viewBox="0 0 100 80" style="width:80px;height:64px;margin:0 auto 10px;display:block"><circle cx="50" cy="35" r="20" fill="#fff" opacity="0.15"/><circle cx="50" cy="35" r="12" fill="#fff" opacity="0.9"/><circle cx="50" cy="35" r="4" fill="#3b82f6"/><rect x="20" y="58" width="60" height="6" rx="3" fill="#fff" opacity="0.3"/><rect x="30" y="68" width="40" height="4" rx="2" fill="#fbbf24" opacity="0.6"/></svg><div style="color:#fff;font-weight:800;font-size:1.1em;margin-bottom:4px">PROCESO</div><p style="color:rgba(255,255,255,0.8);font-size:0.85em">Transformación de datos a información</p></div>
+<div style="background:linear-gradient(135deg,#4c1d95,#a855f7);border-radius:14px;padding:20px;text-align:center;flex:1;min-width:200px;max-width:250px"><svg viewBox="0 0 100 80" style="width:80px;height:64px;margin:0 auto 10px;display:block"><rect x="15" y="8" width="45" height="35" rx="4" fill="#fff" opacity="0.9"/><rect x="20" y="14" width="35" height="4" rx="2" fill="#a855f7"/><rect x="20" y="22" width="28" height="4" rx="2" fill="#a855f7" opacity="0.6"/><rect x="20" y="30" width="32" height="4" rx="2" fill="#a855f7" opacity="0.4"/><rect x="65" y="15" width="22" height="18" rx="3" fill="#fbbf24" opacity="0.8"/><rect x="69" y="36" width="14" height="10" rx="2" fill="#fff" opacity="0.5"/><rect x="15" y="50" width="70" height="18" rx="4" fill="#fff" opacity="0.2"/></svg><div style="color:#fff;font-weight:800;font-size:1.1em;margin-bottom:4px">SALIDA</div><p style="color:rgba(255,255,255,0.8);font-size:0.85em">Información útil para los usuarios</p></div>
+</div>
+<div style="display:flex;justify-content:center;margin-bottom:12px"><svg viewBox="0 0 300 50" style="width:260px"><path d="M250,25 Q250,45 150,45 Q50,45 50,25" fill="none" stroke="#fbbf24" stroke-width="2" stroke-dasharray="6 4"/><text x="150" y="44" text-anchor="middle" fill="#fbbf24" font-size="10" font-weight="700">↻ Retroalimentación</text></svg></div>
+<div class="quote" style="text-align:left">"Un sistema es un conjunto de elementos interrelacionados para lograr un mismo objetivo."<cite>Bertalanffy, L. von (1945)</cite></div>
 </div>
 </div>
 
 <!-- S4 ANÁLISIS Y DISEÑO -->
-<div class="slide" id="s4">
+<div class="slide" id="s4" style="justify-content:center">
 <h2><span>Análisis y Diseño</span></h2>
 <div class="g2">
-<div><div class="cd"><h3>📊 Análisis de Sistemas</h3><p><strong style="color:#3b82f6">Estudiar procedimientos</strong> para identificar QUÉ debe hacer el sistema.</p><ul class="cl" style="margin-top:12px"><li>Identificar problemas existentes</li><li>Recopilar datos y requisitos</li><li>Evaluar soluciones actuales</li><li>Documentar el sistema actual</li></ul></div>
-<div class="box" style="margin-top:12px"><p style="font-size:1.1em;text-align:center"><strong style="color:#3b82f6">Análisis:</strong> ¿QUÉ hacer? &nbsp;→&nbsp; <strong style="color:#a855f7">Diseño:</strong> ¿CÓMO hacerlo?</p></div></div>
-<div><div class="cd cpur"><h3>✏️ Diseño de Sistemas</h3><p>Especificar <strong style="color:#a855f7">arquitectura, componentes, módulos, interfaces y datos</strong>.</p><ul class="cl" style="margin-top:12px"><li>Definir arquitectura del sistema</li><li>Diseñar módulos y componentes</li><li>Crear prototipos</li><li>Planificar la implementación</li></ul></div>
-<svg class="diagram" viewBox="0 0 400 60" style="max-width:380px;margin-top:12px">
-<rect x="10" y="10" width="150" height="40" rx="20" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="2"/>
-<text x="85" y="35" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="800">🔍 ANÁLISIS</text>
-<line x1="170" y1="30" x2="230" y2="30" stroke="url(#g1)" stroke-width="3" marker-end="url(#arrow)"/>
-<defs><marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#a855f7"/></marker></defs>
-<rect x="240" y="10" width="150" height="40" rx="20" fill="rgba(168,85,247,0.15)" stroke="#a855f7" stroke-width="2"/>
-<text x="315" y="35" text-anchor="middle" fill="#c084fc" font-size="13" font-weight="800">✏️ DISEÑO</text>
-</svg></div>
+<div class="gc gc-blue"><h3>📊 Análisis de Sistemas</h3><p>Identificar QUÉ debe hacer el sistema.</p><ul style="text-align:left;margin-top:10px;padding-left:20px"><li>Identificar problemas existentes</li><li>Recopilar datos y requisitos</li><li>Evaluar soluciones actuales</li><li>Documentar el sistema actual</li></ul></div>
+<div class="gc gc-purple"><h3>✏️ Diseño de Sistemas</h3><p>Especificar CÓMO hará el sistema lo que se necesita.</p><ul style="text-align:left;margin-top:10px;padding-left:20px"><li>Definir arquitectura del sistema</li><li>Diseñar módulos y componentes</li><li>Crear prototipos</li><li>Planificar la implementación</li></ul></div>
 </div>
 </div>
 
 <!-- S5 USUARIOS -->
-<div class="slide" id="s5">
+<div class="slide" id="s5" style="justify-content:center">
 <h2><span>¿Quiénes son los Usuarios?</span></h2>
 <div class="g4">
-<div class="cd" style="text-align:center"><div style="font-size:2.5em;margin-bottom:8px">👨‍💼</div><h3 style="text-align:center">Usuarios Finales</h3><p>Usan el sistema diariamente en sus tareas.</p></div>
-<div class="cd cpur" style="text-align:center"><div style="font-size:2.5em;margin-bottom:8px">👥</div><h3 style="text-align:center">Usuarios Gerenciales</h3><p>Toman decisiones basadas en la información.</p></div>
-<div class="cd ctea" style="text-align:center"><div style="font-size:2.5em;margin-bottom:8px">💻</div><h3 style="text-align:center">Técnicos</h3><p>Desarrollan, programan y mantienen el sistema.</p></div>
-<div class="cd cora" style="text-align:center"><div style="font-size:2.5em;margin-bottom:8px">🏢</div><h3 style="text-align:center">Stakeholders</h3><p>Clientes, proveedores, socios e inversores.</p></div>
+<div class="gc gc-blue" style="text-align:center"><h3>👨‍💼 Usuarios Finales</h3><p>Usan el sistema diariamente en sus tareas.</p></div>
+<div class="gc gc-purple" style="text-align:center"><h3>👥 Usuarios Gerenciales</h3><p>Toman decisiones basadas en la información.</p></div>
+<div class="gc gc-teal" style="text-align:center"><h3>💻 Técnicos</h3><p>Desarrollan, programan y mantienen el sistema.</p></div>
+<div class="gc gc-indigo" style="text-align:center"><h3>🏢 Stakeholders</h3><p>Clientes, proveedores, socios e inversores.</p></div>
 </div>
 </div>
 
-<!-- S6 ELEMENTOS -->
-<div class="slide" id="s6">
-<h2><span>Elementos y Componentes</span></h2>
+<!-- S6 ELEMENTOS Y CARACTERÍSTICAS -->
+<div class="slide" id="s6" style="justify-content:center">
+<h2><span>Elementos y Características</span></h2>
 <div class="g2">
-<div class="cd"><h3>🔧 Características de los Sistemas</h3><ul class="cl"><li><strong>Holismo:</strong> El todo es mayor que la suma de partes</li><li><strong>Equifinalidad:</strong> Diversos caminos para un mismo fin</li><li><strong>Homeostasis:</strong> Capacidad de autorregulación</li><li><strong>Adaptación:</strong> Se ajustan al entorno</li><li><strong>Entropía:</strong> Tendencia al desorden</li></ul></div>
-<div class="cd ctea"><h3>📦 Tipos de Sistemas</h3><ul class="cl"><li><strong>Naturales:</strong> Sistema solar, ecosistema</li><li><strong>Artificiales:</strong> Sistema computarizado</li><li><strong>Abiertos:</strong> Empresa, organismo vivo</li><li><strong>Cerrados:</strong> Reloj mecánico</li><li><strong>Conceptuales:</strong> Teoría matemática</li></ul></div>
+<div class="gc gc-blue"><h3>🔧 Características de los Sistemas</h3><ul style="text-align:left;padding-left:20px"><li><strong>Holismo:</strong> El todo es mayor que la suma de partes</li><li><strong>Equifinalidad:</strong> Diversos caminos para un mismo fin</li><li><strong>Homeostasis:</strong> Capacidad de autorregulación</li><li><strong>Adaptación:</strong> Se ajustan al entorno</li><li><strong>Entropía:</strong> Tendencia al desorden</li></ul></div>
+<div class="gc gc-teal"><h3>📦 Tipos de Sistemas</h3><ul style="text-align:left;padding-left:20px"><li><strong>Naturales:</strong> Sistema solar, ecosistema</li><li><strong>Artificiales:</strong> Sistema computarizado</li><li><strong>Abiertos:</strong> Empresa, organismo vivo</li><li><strong>Cerrados:</strong> Reloj mecánico</li><li><strong>Conceptuales:</strong> Teoría matemática</li></ul></div>
 </div>
 </div>
 
-<!-- S7 INFORMACIÓN -->
-<div class="slide" id="s7">
+<!-- S7 MÓDULO 2 INTRO -->
+<div class="slide" id="s7" style="justify-content:center">
 <h2><span>MÓDULO 2: INFORMACIÓN</span></h2>
 <div class="box">
 <h3 style="text-align:center;color:#a855f7;font-size:1.4em;margin-bottom:16px">Definición de Información</h3>
 <div class="g2">
-<div class="cd cpur"><h3>📖 Teoría de la Información (Shannon, 1948)</h3><p>"La información es la medida de la <strong>reducción de la incertidumbre</strong> que proporciona un mensaje."</p></div>
+<div class="cd cpur"><h3>📖 Teoría de la Información (Shannon, 1948)</h3><p>"La información es la medida de la <strong>reducción de la incertidumbre</strong> que proporciona un mensaje."<cite>Shannon, C. E. (1948)</cite></p></div>
 <div class="cd cpur"><h3>🏢 En Ingeniería de Sistemas</h3><p>"La información son <strong>datos procesados y organizados</strong> que tienen significado y utilidad para la toma de decisiones."</p></div>
 </div>
 </div>
-<svg class="diagram" viewBox="0 0 700 100" style="max-width:680px;margin-top:16px">
+<svg viewBox="0 0 700 100" style="max-width:680px;margin-top:16px">
 <rect x="10" y="10" width="150" height="80" rx="12" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2"/>
 <text x="85" y="38" text-anchor="middle" fill="#64748b" font-size="20">📊</text>
 <text x="85" y="62" text-anchor="middle" fill="#1b2838" font-size="13" font-weight="800">DATO</text>
@@ -213,20 +260,20 @@ ul.cl li:hover::before{color:#60a5fa;transform:scale(1.3)}
 </div>
 
 <!-- S8 CARACTERÍSTICAS -->
-<div class="slide" id="s8">
+<div class="slide" id="s8" style="justify-content:center">
 <h2><span>Características de la Información</span></h2>
 <div class="g3">
-<div class="cd cpur"><h3>⏱️ Oportunidad</h3><p>Disponible <strong>cuando se necesita</strong>. Información tardía puede ser inútil.</p></div>
-<div class="cd cpur"><h3>🎯 Precisión</h3><p>Correcta y <strong>confiable</strong>. Errores llevan a malas decisiones.</p></div>
-<div class="cd cpur"><h3>📝 Relevancia</h3><p>Pertinente al <strong>propósito</strong> para el que se necesita.</p></div>
-<div class="cd cpur"><h3>🔍 Comprensibilidad</h3><p>Clara y <strong>fácil de interpretar</strong> por el usuario.</p></div>
-<div class="cd cpur"><h3>📦 Completitud</h3><p>Incluye <strong>todos los datos</strong> necesarios para la decisión.</p></div>
-<div class="cd cpur"><h3>🔄 Accesibilidad</h3><p>Obtenida <strong>fácilmente</strong> por quienes la necesitan.</p></div>
+<div class="gc gc-purple"><h3>⏱️ Oportunidad</h3><p>Disponible cuando se necesita.</p></div>
+<div class="gc gc-purple"><h3>🎯 Precisión</h3><p>Correcta y confiable.</p></div>
+<div class="gc gc-purple"><h3>📝 Relevancia</h3><p>Pertinente al propósito.</p></div>
+<div class="gc gc-purple"><h3>🔍 Comprensibilidad</h3><p>Clara y fácil de interpretar.</p></div>
+<div class="gc gc-purple"><h3>📦 Completitud</h3><p>Incluye todos los datos necesarios.</p></div>
+<div class="gc gc-purple"><h3>🔄 Accesibilidad</h3><p>Obtenida fácilmente.</p></div>
 </div>
 </div>
 
 <!-- S9 PROCESO -->
-<div class="slide" id="s9">
+<div class="slide" id="s9" style="justify-content:center">
 <h2><span>Proceso de Tratamiento</span></h2>
 <div class="box">
 <div class="flow">
@@ -240,32 +287,32 @@ ul.cl li:hover::before{color:#60a5fa;transform:scale(1.3)}
 </div>
 </div>
 
-<!-- S10 SISTEMAS DE INFORMACIÓN -->
-<div class="slide" id="s10">
+<!-- S10 MÓDULO 3 INTRO -->
+<div class="slide" id="s10" style="justify-content:center">
 <h2><span>MÓDULO 3: SISTEMAS DE INFORMACIÓN</span></h2>
 <div class="box" style="text-align:center">
 <h3 style="color:#14b8a6;font-size:1.4em;margin-bottom:16px">Definición</h3>
-<div class="quote" style="border-color:#0d9488;background:#ccfbf1;color:#0f766e;text-align:left">"Un <strong>sistema de información</strong> es el conjunto de agentes, códigos y procesos que interactúan coordinadamente entre sí con un fin común o propósito."</div>
+<div class="quote" style="border-color:#0d9488;background:rgba(20,184,166,0.1);color:#2dd4bf;text-align:left">"Un <strong>sistema de información</strong> es el conjunto de agentes, códigos y procesos que interactúan coordinadamente entre sí con un fin común o propósito."</div>
 </div>
 <div class="g3" style="margin-top:16px">
-<div class="cd ctea" style="text-align:center"><div style="font-size:2em;margin-bottom:6px">🖥️</div><h3 style="text-align:center">Hardware</h3><p>Equipo físico para procesar y almacenar datos.</p></div>
-<div class="cd ctea" style="text-align:center"><div style="font-size:2em;margin-bottom:6px">💿</div><h3 style="text-align:center">Software</h3><p>Programas y procedimientos de procesamiento.</p></div>
-<div class="cd ctea" style="text-align:center"><div style="font-size:2em;margin-bottom:6px">📊</div><h3 style="text-align:center">Datos</h3><p>Información que representa las actividades.</p></div>
-<div class="cd ctea" style="text-align:center"><div style="font-size:2em;margin-bottom:6px">🌐</div><h3 style="text-align:center">Red</h3><p>Infraestructura de comunicación.</p></div>
-<div class="cd ctea" style="text-align:center"><div style="font-size:2em;margin-bottom:6px">👥</div><h3 style="text-align:center">Personas</h3><p>Desarrollan, mantienen y usan el sistema.</p></div>
-<div class="cd ctea" style="text-align:center"><div style="font-size:2em;margin-bottom:6px">📋</div><h3 style="text-align:center">Procesos</h3><p>Procedimientos y reglas de operación.</p></div>
+<div class="gc gc-teal"><h3>🖥️ Hardware</h3><p>Equipo físico para procesar y almacenar datos.</p></div>
+<div class="gc gc-teal"><h3>💿 Software</h3><p>Programas y procedimientos de procesamiento.</p></div>
+<div class="gc gc-teal"><h3>📊 Datos</h3><p>Información que representa las actividades.</p></div>
+<div class="gc gc-teal"><h3>🌐 Red</h3><p>Infraestructura de comunicación.</p></div>
+<div class="gc gc-teal"><h3>👥 Personas</h3><p>Desarrollan, mantienen y usan el sistema.</p></div>
+<div class="gc gc-teal"><h3>📋 Procesos</h3><p>Procedimientos y reglas de operación.</p></div>
 </div>
 </div>
 
 <!-- S11 OPERACIONES -->
-<div class="slide" id="s11">
+<div class="slide" id="s11" style="justify-content:center">
 <h2><span>Operaciones con un SI</span></h2>
 <div class="flow" style="margin-bottom:20px">
-<div style="background:#ccfbf1;border-color:#0d9488"><div class="st" style="color:#0d9488">📥 Captura</div><div class="sd">Registrar datos</div></div>
-<div style="background:#ccfbf1;border-color:#0d9488"><div class="st" style="color:#0d9488">🔄 Procesamiento</div><div class="sd">Transformar</div></div>
-<div style="background:#ccfbf1;border-color:#0d9488"><div class="st" style="color:#0d9488">💾 Almacenamiento</div><div class="sd">Guardar</div></div>
-<div style="background:#ccfbf1;border-color:#0d9488"><div class="st" style="color:#0d9488">🔍 Recuperación</div><div class="sd">Consultar</div></div>
-<div style="background:#ccfbf1;border-color:#0d9488"><div class="st" style="color:#0d9488">📤 Salida</div><div class="sd">Reportes</div></div>
+<div style="background:rgba(20,184,166,0.1);border-color:rgba(20,184,166,0.4)"><div class="st" style="color:#14b8a6">📥 Captura</div><div class="sd">Registrar datos</div></div>
+<div style="background:rgba(20,184,166,0.1);border-color:rgba(20,184,166,0.4)"><div class="st" style="color:#14b8a6">🔄 Procesamiento</div><div class="sd">Transformar</div></div>
+<div style="background:rgba(20,184,166,0.1);border-color:rgba(20,184,166,0.4)"><div class="st" style="color:#14b8a6">💾 Almacenamiento</div><div class="sd">Guardar</div></div>
+<div style="background:rgba(20,184,166,0.1);border-color:rgba(20,184,166,0.4)"><div class="st" style="color:#14b8a6">🔍 Recuperación</div><div class="sd">Consultar</div></div>
+<div style="background:rgba(20,184,166,0.1);border-color:rgba(20,184,166,0.4)"><div class="st" style="color:#14b8a6">📤 Salida</div><div class="sd">Reportes</div></div>
 </div>
 <div class="g2">
 <div class="cd ctea"><h3>🔄 Operaciones Principales</h3><ul class="cl"><li><strong>Input:</strong> Capturar datos crudos</li><li><strong>Proceso:</strong> Calcular, clasificar, ordenar</li><li><strong>Almacenamiento:</strong> Guardar en BD o archivos</li><li><strong>Output:</strong> Generar reportes, pantallas</li><li><strong>Feedback:</strong> Evaluar y corregir</li></ul></div>
@@ -273,8 +320,8 @@ ul.cl li:hover::before{color:#60a5fa;transform:scale(1.3)}
 </div>
 </div>
 
-<!-- S12 TIPOS DE SI -->
-<div class="slide" id="s12">
+<!-- S12A PIRÁMIDE ORGANIZACIONAL -->
+<div class="slide" id="s12" style="justify-content:center">
 <h2><span>Tipos de Sistemas de Información</span></h2>
 <h3 style="color:#14b8a6;text-align:center;margin-bottom:12px">Modelo de la Pirámide Organizacional</h3>
 <div class="pyr">
@@ -284,97 +331,143 @@ ul.cl li:hover::before{color:#60a5fa;transform:scale(1.3)}
 <div class="p4">📋 TPS - Procesamiento de Transacciones</div>
 <div class="p5">⚙️ OAS - Automatización de Oficinas</div>
 </div>
-<div class="g2" style="margin-top:16px">
-<div class="cd ctea"><h3>📋 TPS</h3><p>Registra operaciones diarias: ventas, inventario, nómina. <span class="tag t3">Operativo</span></p></div>
-<div class="cd ctea"><h3>📈 MIS</h3><p>Genera reportes periódicos para gerentes. <span class="tag t1">Táctico</span></p></div>
-<div class="cd cpur"><h3>📊 DSS</h3><p>Análisis de escenarios y simulaciones. <span class="tag t2">Estratégico</span></p></div>
-<div class="cd cora"><h3>🏢 EIS</h3><p>Información de alto nivel para C-suite. <span class="tag t4">Estratégico</span></p></div>
+<p style="margin-top:16px;color:#94a3b8;font-size:0.95em">Desde operaciones diarias (base) hasta decisiones estratégicas (cima)</p>
+</div>
+
+<!-- S12B DETALLE TIPOS DE SI -->
+<div class="slide" id="s13" style="justify-content:center">
+<h2><span>Detalle de los Tipos de SI</span></h2>
+<div class="g2">
+<div class="gc gc-teal"><h3>📋 TPS</h3><p>Registra operaciones diarias: ventas, inventario, nómina.</p></div>
+<div class="gc gc-blue"><h3>📈 MIS</h3><p>Genera reportes periódicos para gerentes.</p></div>
+<div class="gc gc-purple"><h3>📊 DSS</h3><p>Análisis de escenarios y simulaciones.</p></div>
+<div class="gc gc-indigo"><h3>🏢 EIS</h3><p>Información de alto nivel para C-suite.</p></div>
 </div>
 </div>
 
-<!-- S13 OTROS TIPOS -->
-<div class="slide" id="s13">
+<!-- S14 OTROS TIPOS -->
+<div class="slide" id="s14" style="justify-content:center">
 <h2><span>Otros Tipos de Sistemas de Información</span></h2>
 <div class="g3">
-<div class="cd ctea"><h3>🤖 Sistema Experto (SE)</h3><p>Emula el comportamiento de un experto humano con inteligencia artificial y reglas de inferencia.</p></div>
-<div class="cd ctea"><h3>📦 ERP</h3><p>Enterprise Resource Planning. Integra toda la información y procesos de una organización.</p></div>
-<div class="cd ctea"><h3>🌐 SIG</h3><p>Sistema de Información Geográfica. Análisis de información georreferenciada.</p></div>
-<div class="cd cpur"><h3>📝 OAS</h3><p>Sistemas de Automatización de Oficinas. Optimizan el trabajo administrativo.</p></div>
-<div class="cd cora"><h3>🏢 SI Estratégico</h3><p>Uso de TI para respaldar la estrategia competitiva de la organización.</p></div>
-<div class="cd cpink"><h3>☁️ SI en la Nube</h3><p>Sistemas accesibles vía internet. Permiten trabajo remoto y escalabilidad.</p></div>
+<div class="gc gc-teal"><h3>🤖 Sistema Experto</h3><p>Emula experto humano con IA y reglas de inferencia.</p></div>
+<div class="gc gc-blue"><h3>📦 ERP</h3><p>Integra toda la información y procesos de la organización.</p></div>
+<div class="gc gc-purple"><h3>🌐 SIG</h3><p>Análisis de información georreferenciada.</p></div>
+<div class="gc gc-indigo"><h3>📝 OAS</h3><p>Optimizan el trabajo administrativo.</p></div>
+<div class="gc gc-amber"><h3>🏢 SI Estratégico</h3><p>TI para respaldar estrategia competitiva.</p></div>
+<div class="gc gc-rose"><h3>☁️ SI en la Nube</h3><p>Trabajo remoto y escalabilidad.</p></div>
 </div>
 </div>
 
-<!-- S14 DECISIONES -->
-<div class="slide" id="s14">
+<!-- S15 DECISIONES -->
+<div class="slide" id="s15" style="justify-content:center">
 <h2><span>Información y Toma de Decisiones</span></h2>
 <div class="g2">
-<div class="cd ctea"><h3>📊 Niveles de Decisión</h3>
-<div class="exp"><div class="exp-h" onclick="toggle(this)"><span>🏢 Estratégica (Alta Gerencia)</span><span class="arr">▼</span></div><div class="exp-b"><p>Largo plazo: expansión, fusiones, nuevos mercados. Requiere información externa y estratégica.</p></div></div>
-<div class="exp"><div class="exp-h" onclick="toggle(this)"><span>📋 Táctica (Gerencia Media)</span><span class="arr">▼</span></div><div class="exp-b"><p>Mediano plazo: asignación de recursos, presupuestos departamentales.</p></div></div>
-<div class="exp"><div class="exp-h" onclick="toggle(this)"><span>⚙️ Operativa (Supervisores)</span><span class="arr">▼</span></div><div class="exp-b"><p>Corto plazo: horarios, inventario, programación diaria.</p></div></div>
-</div>
-<div class="cd cora"><h3>💡 Calidad de la Información</h3><ul class="cl"><li><strong>Relevante:</strong> Perteneciente al problema</li><li><strong>Oportuna:</strong> Disponible a tiempo</li><li><strong>Exacta:</strong> Sin errores</li><li><strong>Completa:</strong> Sin omisiones</li><li><strong>Económica:</strong> Costo-beneficio favorable</li></ul>
-<div class="quote" style="margin-top:12px;border-color:#ea580c;background:#ffedd5;color:#c2410c;font-size:0.88em">"Demasiada información puede ser tan dañina como muy poca."</div></div>
+<div class="gc gc-teal"><h3>📊 Niveles de Decisión</h3>
+<div style="text-align:left;margin-top:10px">
+<div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:10px;margin-bottom:8px"><strong>🏢 Estratégica:</strong> Largo plazo, Alta Dirección</div>
+<div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:10px;margin-bottom:8px"><strong>📋 Táctica:</strong> Mediano plazo, Gerencia Media</div>
+<div style="background:rgba(255,255,255,0.15);border-radius:8px;padding:10px"><strong>⚙️ Operativa:</strong> Corto plazo, Supervisores</div>
+</div></div>
+<div class="gc gc-indigo"><h3>💡 Calidad de la Información</h3>
+<ul style="text-align:left;padding-left:20px"><li><strong>Relevante:</strong> Perteneciente al problema</li><li><strong>Oportuna:</strong> Disponible a tiempo</li><li><strong>Exacta:</strong> Sin errores</li><li><strong>Completa:</strong> Sin omisiones</li><li><strong>Económica:</strong> Costo-beneficio favorable</li></ul></div>
 </div>
 </div>
 
-<!-- S15 CONCLUSIONES -->
-<div class="slide" id="s16">
+<!-- S16A CICLO DE VIDA FASES -->
+<div class="slide" id="s16" style="justify-content:center">
+<h2><span>Ciclo de Vida del SI</span></h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:900px;width:100%">
+<div class="gc gc-teal" style="padding:16px"><div style="font-size:1.6em;margin-bottom:4px">📋</div><div style="font-weight:800;font-size:0.95em">1. Planificación</div><p style="opacity:0.8;font-size:0.8em;margin-top:4px">Identificar necesidades</p></div>
+<div class="gc gc-teal" style="padding:16px"><div style="font-size:1.6em;margin-bottom:4px">🔍</div><div style="font-weight:800;font-size:0.95em">2. Análisis</div><p style="opacity:0.8;font-size:0.8em;margin-top:4px">Requisitos existentes</p></div>
+<div class="gc gc-teal" style="padding:16px"><div style="font-size:1.6em;margin-bottom:4px">✏️</div><div style="font-weight:800;font-size:0.95em">3. Diseño</div><p style="opacity:0.8;font-size:0.8em;margin-top:4px">Solución del sistema</p></div>
+<div class="gc gc-teal" style="padding:16px"><div style="font-size:1.6em;margin-bottom:4px">💻</div><div style="font-weight:800;font-size:0.95em">4. Desarrollo</div><p style="opacity:0.8;font-size:0.8em;margin-top:4px">Construir el sistema</p></div>
+<div class="gc gc-teal" style="padding:16px"><div style="font-size:1.6em;margin-bottom:4px">✅</div><div style="font-weight:800;font-size:0.95em">5. Pruebas</div><p style="opacity:0.8;font-size:0.8em;margin-top:4px">Asegurar calidad</p></div>
+<div class="gc gc-teal" style="padding:16px"><div style="font-size:1.6em;margin-bottom:4px">🚀</div><div style="font-weight:800;font-size:0.95em">6. Implementación</div><p style="opacity:0.8;font-size:0.8em;margin-top:4px">Poner en marcha</p></div>
+<div class="gc gc-teal" style="padding:16px"><div style="font-size:1.6em;margin-bottom:4px">👥</div><div style="font-weight:800;font-size:0.95em">7. Capacitación</div><p style="opacity:0.8;font-size:0.8em;margin-top:4px">Entrenar usuarios</p></div>
+<div class="gc gc-teal" style="padding:16px"><div style="font-size:1.6em;margin-bottom:4px">🔧</div><div style="font-weight:800;font-size:0.95em">8. Mantenimiento</div><p style="opacity:0.8;font-size:0.8em;margin-top:4px">Corregir y mejorar</p></div>
+<div class="gc gc-teal" style="padding:16px"><div style="font-size:1.6em;margin-bottom:4px">📈</div><div style="font-weight:800;font-size:0.95em">9. Evaluación</div><p style="opacity:0.8;font-size:0.8em;margin-top:4px">Medir desempeño</p></div>
+</div>
+</div>
+
+<!-- S16B FASES RESUMEN -->
+<div class="slide" id="s17" style="justify-content:center">
+<h2><span>Etapas Principales</span></h2>
+<div class="g3">
+<div class="gc gc-teal"><h3>📊 Análisis</h3><p>Comprender el sistema actual y las necesidades del negocio.</p></div>
+<div class="gc gc-purple"><h3>✏️ Diseño</h3><p>Crear la solución técnica y funcional del sistema.</p></div>
+<div class="gc gc-blue"><h3>🚀 Implementación</h3><p>Desarrollo, pruebas y puesta en producción.</p></div>
+</div>
+</div>
+
+<!-- S18 CONCLUSIONES -->
+<div class="slide" id="s18" style="justify-content:center">
 <h2><span>Conclusiones</span></h2>
 <div class="box">
 <div class="g2">
 <div>
-<div class="cd" style="border-left:4px solid #3b82f6"><h3>⚙️ Sistemas</h3><p>Conjuntos de elementos interrelacionados para lograr objetivos. Se analizan (QUÉ) y diseñan (CÓMO).</p></div>
-<div class="cd" style="border-left:4px solid #a855f7"><h3>💎 Información</h3><p>Datos procesados con significado. Su calidad determina la efectividad de las decisiones.</p></div>
-<div class="cd" style="border-left:4px solid #14b8a6"><h3>🌐 Sistemas de Información</h3><p>Integran personas, tecnología y procesos para gestionar la información.</p></div>
+<div class="gc gc-blue"><h3>⚙️ Sistemas</h3><p>Conjuntos de elementos interrelacionados para lograr objetivos.</p></div>
+<div class="gc gc-purple" style="margin-top:12px"><h3>💎 Información</h3><p>Datos procesados con significado para la toma de decisiones.</p></div>
+<div class="gc gc-teal" style="margin-top:12px"><h3>🌐 Sistemas de Información</h3><p>Integran personas, tecnología y procesos.</p></div>
 </div>
 <div>
-<div class="quote" style="border-color:#0d9488;background:#ccfbf1;color:#0f766e">"En la era de la información, el mayor activo de una compañía es su información."</div>
+<div class="quote" style="border-color:#0d9488;background:rgba(20,184,166,0.1);color:#2dd4bf">"En la era de la información, el mayor activo de una compañía es su información."</div>
 <div class="g2" style="margin-top:16px">
-<div class="cd" style="text-align:center"><div class="stat-num">6</div><p>Componentes SI</p></div>
-<div class="cd" style="text-align:center"><div class="stat-num">9</div><p>Fases Ciclo Vida</p></div>
-<div class="cd" style="text-align:center"><div class="stat-num">6</div><p>Tipos de SI</p></div>
-<div class="cd" style="text-align:center"><div class="stat-num">3</div><p>Niveles Decisión</p></div>
+<div class="gc gc-blue" style="cursor:pointer;padding:16px" onclick="openComponentesModal()"><div style="font-size:2.5em;font-weight:900">6</div><p>Componentes SI</p></div>
+<div class="gc gc-teal" style="cursor:pointer;padding:16px" onclick="openGalleryModal()"><div style="font-size:2.5em;font-weight:900">9</div><p>Fases Ciclo Vida</p></div>
+<div class="gc gc-purple" style="cursor:pointer;padding:16px" onclick="openTiposModal()"><div style="font-size:2.5em;font-weight:900">6</div><p>Tipos de SI</p></div>
+<div class="gc gc-indigo" style="cursor:pointer;padding:16px" onclick="openNivelesModal()"><div style="font-size:2.5em;font-weight:900">3</div><p>Niveles Decisión</p></div>
 </div>
 </div>
 </div>
 </div>
 </div>
 
-<!-- S16 REFERENCIAS -->
-<div class="slide" id="s17">
-<h2><span>Referencias Bibliográficas</span></h2>
-<div class="box">
-<ul class="cl">
-<li><strong>Sommerville, I.</strong> (2016). Ingeniería de Software. Pearson Educación.</li>
-<li><strong>Pressman, R. S.</strong> (2014). Ingeniería de Software: Un Enfoque de Gestión. McGraw-Hill.</li>
-<li><strong>Laudon, K. & Laudon, J.</strong> (2020). Sistemas de Información Gerencial. Pearson.</li>
-<li><strong>O'Brien, J. & Marakas, G.</strong> (2017). Management Information Systems. McGraw-Hill.</li>
-<li><strong>Bunge, M.</strong> (1999). Diccionario de Filosofía. Siglo XXI.</li>
-<li><strong>Bertalanffy, L. von</strong> (1945). "Zu einer allgemeinen Systemlehre". Blätter für deutsche Philosophie.</li>
-<li><strong>Shannon, C.</strong> (1948). "A Mathematical Theory of Communication". Bell System Technical Journal.</li>
+<!-- S19 REFERENCIAS -->
+<div class="slide" id="s19" style="justify-content:center">
+<h2><span>Referencias</span></h2>
+<div class="box" style="padding-left:40px">
+<ul class="cl" style="list-style:none">
+<li style="padding:8px 0;padding-left:0;text-indent:-36px;margin-left:36px">Bertalanffy, L. von. (1945). Zu einer allgemeinen Systemlehre. <em>Blätter für deutsche Philosophie</em>, 18/19, 298-332.</li>
+<li style="padding:8px 0;padding-left:0;text-indent:-36px;margin-left:36px">Bunge, M. (1999). <em>Diccionario de filosofía</em>. Siglo XXI Editores.</li>
+<li style="padding:8px 0;padding-left:0;text-indent:-36px;margin-left:36px">Laudon, K. C. y Laudon, J. P. (2020). <em>Sistemas de información gerencial</em> (16.ª ed.). Pearson Educación.</li>
+<li style="padding:8px 0;padding-left:0;text-indent:-36px;margin-left:36px">O'Brien, J. A. y Marakas, G. M. (2017). <em>Management information systems</em> (10th ed.). McGraw-Hill Education.</li>
+<li style="padding:8px 0;padding-left:0;text-indent:-36px;margin-left:36px">Pressman, R. S. (2014). <em>Ingeniería de software: Un enfoque de gestión</em> (8.ª ed.). McGraw-Hill Education.</li>
+<li style="padding:8px 0;padding-left:0;text-indent:-36px;margin-left:36px">Shannon, C. E. (1948). A mathematical theory of communication. <em>The Bell System Technical Journal</em>, <em>27</em>(3), 379-423. https://doi.org/10.1002/j.1538-7305.1948.tb01338.x</li>
+<li style="padding:8px 0;padding-left:0;text-indent:-36px;margin-left:36px">Sommerville, I. (2016). <em>Ingeniería de software</em> (10.ª ed.). Pearson Educación.</li>
 </ul>
 </div>
 </div>
+
 </div>
 
 <nav class="nav">
 <button class="nm" onclick="location.href='index.html'">← Menú</button>
 <button class="nb" onclick="prev()">◀ Anterior</button>
-<div class="cnt" id="cnt">1 / 17</div>
+<div class="cnt" id="cnt">1 / 19</div>
 <button class="nb" onclick="next()">Siguiente ▶</button>
+<button class="nm" onclick="location.href='game.html'">🎮 Juego</button>
 </nav>
 <footer class="ft"><p><strong>Grupo 4:</strong> Jeimy Calderón, Jorge Montiel, Kevin Morales, Raúl Lozano</p></footer>
 
 <script>
-let cur=1;const tot=17;
-function go(n){document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));const el=document.getElementById('s'+n);if(el){el.classList.add('active');cur=n;document.getElementById('cnt').textContent=n+' / '+tot}}
+let cur=1;const tot=19;
+function go(n){document.querySelectorAll('.slide').forEach(function(s){s.classList.remove('active')});var el=document.getElementById('s'+n);if(el){el.classList.add('active');cur=n;document.getElementById('cnt').textContent=n+' / '+tot}}
 function next(){if(cur<tot)go(cur+1)}
 function prev(){if(cur>1)go(cur-1)}
 document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next()}if(e.key==='ArrowLeft'){e.preventDefault();prev()}});
+var tx=null;document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',function(e){if(tx===null)return;var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50){dx>0?prev():next()}tx=null},{passive:true});
 function toggle(h){var b=h.nextElementSibling;b.classList.toggle('open');h.classList.toggle('open')}
-function ans(el,ok){el.classList.add(ok?'ok':'no');if(!ok){el.parentElement.querySelectorAll('.qo').forEach(function(o){if(o!==el&&o.getAttribute('onclick')&&o.getAttribute('onclick').includes('true'))o.classList.add('ok')})}}
+function showImgModal(src){var m=document.getElementById('imgModal');var img=document.getElementById('modalImg');img.src=src;m.style.display='flex'}
+function closeImgModal(){document.getElementById('imgModal').style.display='none'}
+function openGalleryModal(){document.getElementById('galleryModal').style.display='block'}
+function closeGalleryModal(){document.getElementById('galleryModal').style.display='none'}
+function openComponentesModal(){document.getElementById('componentesModal').style.display='block'}
+function closeComponentesModal(){document.getElementById('componentesModal').style.display='none'}
+function openTiposModal(){document.getElementById('tiposModal').style.display='block'}
+function closeTiposModal(){document.getElementById('tiposModal').style.display='none'}
+function openNivelesModal(){document.getElementById('nivelesModal').style.display='block'}
+function closeNivelesModal(){document.getElementById('nivelesModal').style.display='none'}
 </script>
 </body>
 </html>

@@ -228,7 +228,7 @@ if(v===T){showQuestion(()=>{pr=nr;pc=nc});return}
 if(v===K){maze[nr][nc]=F;score+=200;showPop({em:'🔑',mod:'¡LLAVE!',ti:'+200 puntos',de:'Obtuviste una llave. Puedes abrir puertas bloqueadas.',co:'#f59e0b',btn:'Continuar',cb:()=>{pr=nr;pc=nc}});return}
 if(v===M){lives--;score=Math.max(0,score-100);maze[nr][nc]=F;document.getElementById('hL').textContent=lives;document.getElementById('hS').textContent=score;
 if(lives<=0){gameOver=true;showPop({em:'💀',mod:'GAME OVER',ti:'Sin vidas',de:'Puntuación final: '+score,co:'#ef4444',btn:'🔄 Reiniciar',cb:()=>{level=0;init();requestAnimationFrame(draw)}});return}
-showPop({em:'💣',mod:'¡MINA!',ti:'-1 vida, -100 pts',de:'Pisaste una mina. Cuidado con las炸弹.',co:'#f97316',btn:'Continuar',cb:()=>{}});return}
+showPop({em:'💣',mod:'¡MINA!',ti:'-1 vida, -100 pts',de:'Pisaste una mina. Cuidado con las minas.',co:'#f97316',btn:'Continuar',cb:()=>{}});return}
 pr=nr;pc=nc;
 if(v===C){maze[nr][nc]=F;const i=collected.size;if(i<CONCEPTS.length){collected.add(i);score+=100;document.getElementById('hC').textContent=collected.size;document.getElementById('hS').textContent=score;const ch=document.getElementById('ch'+i);if(ch)ch.classList.add('on');
 showPop({...CONCEPTS[i],btn:'Continuar →',cb:()=>{}})}}}
